@@ -1,0 +1,1544 @@
+Step 1/15 : FROM python:3.7
+3.7: Pulling from library/python
+Digest: sha256:7a2513d6225aecdf249b68f46dda559bcf5a82dc4850abd03620e465bb0bdf5a
+Status: Downloaded newer image for python:3.7
+ ---> 65d5b6c539fd
+Step 2/15 : WORKDIR /app/
+ ---> Running in 9e0181599261
+Removing intermediate container 9e0181599261
+ ---> ca661340da72
+Step 3/15 : RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_HOME=/opt/poetry python &&     cd /usr/local/bin &&     ln -s /opt/poetry/bin/poetry &&     poetry config virtualenvs.create false
+ ---> Running in 2dbc1afd7b8c
+Retrieving Poetry metadata
+
+# Welcome to Poetry!
+
+This will download and install the latest version of Poetry,
+a dependency and package manager for Python.
+
+It will add the `poetry` command to Poetry's bin directory, located at:
+
+/opt/poetry/bin
+
+This path will then be added to your `PATH` environment variable by
+modifying the profile file located at:
+
+$HOME/.profile
+
+You can uninstall at any time by executing this script with the --uninstall option,
+and these changes will be reverted.
+
+Installing version: 1.1.4
+  - Downloading poetry-1.1.4-linux.tar.gz (57.03MB)
+
+Poetry (1.1.4) is installed now. Great!
+
+To get started you need Poetry's bin directory (/opt/poetry/bin) in your `PATH`
+environment variable. Next time you log in this will be done
+automatically.
+
+To configure your current shell run `source /opt/poetry/env`
+
+Removing intermediate container 2dbc1afd7b8c
+ ---> b5bdaba0032e
+Step 4/15 : COPY ./app/pyproject.toml ./app/poetry.lock* /app/
+ ---> 9618731efb34
+Step 5/15 : ARG INSTALL_DEV=false
+ ---> Running in 06e88008a62b
+Removing intermediate container 06e88008a62b
+ ---> cc1c99b30c4b
+Step 6/15 : RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; else poetry install --no-root --no-dev ; fi"
+ ---> Running in 26e3de3ba9a7
+Skipping virtualenv creation, as specified in config file.
+Updating dependencies
+Resolving dependencies...
+
+Writing lock file
+
+Package operations: 78 installs, 0 updates, 0 removals
+
+  • Installing typing-extensions (3.7.4.3)
+  • Installing zipp (3.4.0)
+  • Installing certifi (2020.12.5)
+  • Installing chardet (4.0.0)
+  • Installing idna (2.10)
+  • Installing importlib-metadata (3.4.0)
+  • Installing pycparser (2.20)
+  • Installing pyparsing (2.4.7)
+  • Installing urllib3 (1.26.3)
+  • Installing vine (1.3.0)
+  • Installing amqp (2.6.1)
+  • Installing attrs (20.3.0)
+  • Installing cachetools (4.2.1)
+  • Installing cffi (1.14.5)
+  • Installing cssselect (1.1.0)
+  • Installing cssutils (1.0.2)
+  • Installing lxml (4.6.2)
+  • Installing markupsafe (1.1.1)
+  • Installing more-itertools (8.7.0)
+  • Installing mypy-extensions (0.4.3)
+  • Installing packaging (20.9)
+  • Installing pluggy (0.13.1)
+  • Installing py (1.10.0)
+  • Installing pyasn1 (0.4.8)
+  • Installing requests (2.25.1)
+  • Installing six (1.15.0)
+  • Installing typed-ast (1.4.2)
+  • Installing wcwidth (0.2.5)
+  • Installing appdirs (1.4.4)
+  • Installing bcrypt (3.2.0)
+  • Installing billiard (3.6.3.0)
+  • Installing click (7.1.2)
+  • Installing coverage (5.4)
+  • Installing cryptography (3.4.4)
+  • Installing dnspython (2.1.0)
+  • Installing ecdsa (0.14.1)
+  • Installing h11 (0.9.0)
+  • Installing httptools (0.1.1)
+  • Installing kombu (4.6.11)
+  • Installing mako (1.1.4)
+  • Installing mccabe (0.6.1)
+  • Installing mypy (0.770)
+  • Installing pathspec (0.8.1)
+  • Installing premailer (3.7.0)
+  • Installing pycodestyle (2.6.0)
+  • Installing pydantic (1.7.3)
+  • Installing pyflakes (2.2.0)
+  • Installing pytest (5.4.3)
+  • Installing python-dateutil (2.8.1)
+  • Installing python-editor (1.0.4)
+  • Installing pytz (2021.1)
+  • Installing regex (2020.11.13)
+  • Installing rsa (4.7)
+  • Installing sqlalchemy (1.3.23)
+  • Installing starlette (0.13.2)
+  • Installing toml (0.10.2)
+  • Installing uvloop (0.15.0)
+  • Installing websockets (8.1)
+  • Installing alembic (1.5.4)
+  • Installing autoflake (1.4)
+  • Installing black (19.10b0)
+  • Installing celery (4.4.7)
+  • Installing email-validator (1.1.2)
+  • Installing emails (0.5.15)
+  • Installing fastapi (0.54.2)
+  • Installing flake8 (3.8.4)
+  • Installing gunicorn (20.0.4)
+  • Installing isort (4.3.21)
+  • Installing jinja2 (2.11.3)
+  • Installing passlib (1.7.4)
+  • Installing psycopg2-binary (2.8.6)
+  • Installing pytest-cov (2.11.1)
+  • Installing python-jose (3.2.0)
+  • Installing python-multipart (0.0.5)
+  • Installing raven (6.10.0)
+  • Installing sqlalchemy-stubs (0.3)
+  • Installing tenacity (6.3.1)
+  • Installing uvicorn (0.11.8)
+Removing intermediate container 26e3de3ba9a7
+ ---> cfa9779ff54b
+Step 7/15 : ARG INSTALL_JUPYTER=false
+ ---> Running in e40bef8dcad1
+Removing intermediate container e40bef8dcad1
+ ---> 413578b3eeb1
+Step 8/15 : RUN bash -c "if [ $INSTALL_JUPYTER == 'true' ] ; then pip install jupyterlab ; fi"
+ ---> Running in bdb97c4f2749
+Collecting jupyterlab
+  Downloading jupyterlab-3.0.7-py3-none-any.whl (8.3 MB)
+Collecting jupyterlab-server~=2.0
+  Downloading jupyterlab_server-2.2.0-py3-none-any.whl (45 kB)
+Collecting tornado>=6.1.0
+  Downloading tornado-6.1-cp37-cp37m-manylinux2010_x86_64.whl (428 kB)
+Collecting jupyter-server~=1.2
+  Downloading jupyter_server-1.3.0-py3-none-any.whl (188 kB)
+Collecting ipython
+  Downloading ipython-7.20.0-py3-none-any.whl (784 kB)
+Collecting nbclassic~=0.2
+  Downloading nbclassic-0.2.6-py3-none-any.whl (18 kB)
+Collecting jupyter-core
+  Downloading jupyter_core-4.7.1-py3-none-any.whl (82 kB)
+Requirement already satisfied: packaging in /usr/local/lib/python3.7/site-packages (from jupyterlab) (20.9)
+Requirement already satisfied: jinja2>=2.10 in /usr/local/lib/python3.7/site-packages (from jupyterlab) (2.11.3)
+Requirement already satisfied: MarkupSafe>=0.23 in /usr/local/lib/python3.7/site-packages (from jinja2>=2.10->jupyterlab) (1.1.1)
+Collecting nbformat
+  Downloading nbformat-5.1.2-py3-none-any.whl (113 kB)
+Collecting terminado>=0.8.3
+  Downloading terminado-0.9.2-py3-none-any.whl (14 kB)
+Collecting Send2Trash
+  Downloading Send2Trash-1.5.0-py3-none-any.whl (12 kB)
+Collecting jupyter-client>=6.1.1
+  Downloading jupyter_client-6.1.11-py3-none-any.whl (108 kB)
+Collecting nbconvert
+  Downloading nbconvert-6.0.7-py3-none-any.whl (552 kB)
+Collecting prometheus-client
+  Downloading prometheus_client-0.9.0-py2.py3-none-any.whl (53 kB)
+Collecting traitlets>=4.2.1
+  Downloading traitlets-5.0.5-py3-none-any.whl (100 kB)
+Collecting anyio>=2.0.2
+  Downloading anyio-2.1.0-py3-none-any.whl (64 kB)
+Collecting pyzmq>=17
+  Downloading pyzmq-22.0.2-cp37-cp37m-manylinux1_x86_64.whl (1.1 MB)
+Collecting ipython-genutils
+  Downloading ipython_genutils-0.2.0-py2.py3-none-any.whl (26 kB)
+Requirement already satisfied: idna>=2.8 in /usr/local/lib/python3.7/site-packages (from anyio>=2.0.2->jupyter-server~=1.2->jupyterlab) (2.10)
+Collecting sniffio>=1.1
+  Downloading sniffio-1.2.0-py3-none-any.whl (10 kB)
+Requirement already satisfied: typing-extensions in /usr/local/lib/python3.7/site-packages (from anyio>=2.0.2->jupyter-server~=1.2->jupyterlab) (3.7.4.3)
+Requirement already satisfied: python-dateutil>=2.1 in /usr/local/lib/python3.7/site-packages (from jupyter-client>=6.1.1->jupyter-server~=1.2->jupyterlab) (2.8.1)
+Collecting babel
+  Downloading Babel-2.9.0-py2.py3-none-any.whl (8.8 MB)
+Collecting json5
+  Downloading json5-0.9.5-py2.py3-none-any.whl (17 kB)
+Collecting jsonschema>=3.0.1
+  Downloading jsonschema-3.2.0-py2.py3-none-any.whl (56 kB)
+Requirement already satisfied: requests in /usr/local/lib/python3.7/site-packages (from jupyterlab-server~=2.0->jupyterlab) (2.25.1)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.7/site-packages (from jsonschema>=3.0.1->jupyterlab-server~=2.0->jupyterlab) (53.0.0)
+Requirement already satisfied: importlib-metadata in /usr/local/lib/python3.7/site-packages (from jsonschema>=3.0.1->jupyterlab-server~=2.0->jupyterlab) (3.4.0)
+Collecting pyrsistent>=0.14.0
+  Downloading pyrsistent-0.17.3.tar.gz (106 kB)
+Requirement already satisfied: attrs>=17.4.0 in /usr/local/lib/python3.7/site-packages (from jsonschema>=3.0.1->jupyterlab-server~=2.0->jupyterlab) (20.3.0)
+Requirement already satisfied: six>=1.11.0 in /usr/local/lib/python3.7/site-packages (from jsonschema>=3.0.1->jupyterlab-server~=2.0->jupyterlab) (1.15.0)
+Collecting notebook<7
+  Downloading notebook-6.2.0-py3-none-any.whl (9.5 MB)
+Collecting ipykernel
+  Downloading ipykernel-5.4.3-py3-none-any.whl (120 kB)
+Collecting argon2-cffi
+  Downloading argon2_cffi-20.1.0-cp35-abi3-manylinux1_x86_64.whl (97 kB)
+Collecting ptyprocess
+  Downloading ptyprocess-0.7.0-py2.py3-none-any.whl (13 kB)
+Requirement already satisfied: cffi>=1.0.0 in /usr/local/lib/python3.7/site-packages (from argon2-cffi->notebook<7->nbclassic~=0.2->jupyterlab) (1.14.5)
+Requirement already satisfied: pycparser in /usr/local/lib/python3.7/site-packages (from cffi>=1.0.0->argon2-cffi->notebook<7->nbclassic~=0.2->jupyterlab) (2.20)
+Requirement already satisfied: pytz>=2015.7 in /usr/local/lib/python3.7/site-packages (from babel->jupyterlab-server~=2.0->jupyterlab) (2021.1)
+Requirement already satisfied: zipp>=0.5 in /usr/local/lib/python3.7/site-packages (from importlib-metadata->jsonschema>=3.0.1->jupyterlab-server~=2.0->jupyterlab) (3.4.0)
+Collecting decorator
+  Downloading decorator-4.4.2-py2.py3-none-any.whl (9.2 kB)
+Collecting pygments
+  Downloading Pygments-2.7.4-py3-none-any.whl (950 kB)
+Collecting jedi>=0.16
+  Downloading jedi-0.18.0-py2.py3-none-any.whl (1.4 MB)
+Collecting backcall
+  Downloading backcall-0.2.0-py2.py3-none-any.whl (11 kB)
+Collecting pickleshare
+  Downloading pickleshare-0.7.5-py2.py3-none-any.whl (6.9 kB)
+Collecting pexpect>4.3
+  Downloading pexpect-4.8.0-py2.py3-none-any.whl (59 kB)
+Collecting prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0
+  Downloading prompt_toolkit-3.0.16-py3-none-any.whl (366 kB)
+Collecting parso<0.9.0,>=0.8.0
+  Downloading parso-0.8.1-py2.py3-none-any.whl (93 kB)
+Requirement already satisfied: wcwidth in /usr/local/lib/python3.7/site-packages (from prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0->ipython->jupyterlab) (0.2.5)
+Collecting mistune<2,>=0.8.1
+  Downloading mistune-0.8.4-py2.py3-none-any.whl (16 kB)
+Collecting jupyterlab-pygments
+  Downloading jupyterlab_pygments-0.1.2-py2.py3-none-any.whl (4.6 kB)
+Collecting pandocfilters>=1.4.1
+  Downloading pandocfilters-1.4.3.tar.gz (16 kB)
+Collecting testpath
+  Downloading testpath-0.4.4-py2.py3-none-any.whl (163 kB)
+Collecting bleach
+  Downloading bleach-3.3.0-py2.py3-none-any.whl (283 kB)
+Collecting entrypoints>=0.2.2
+  Downloading entrypoints-0.3-py2.py3-none-any.whl (11 kB)
+Collecting defusedxml
+  Downloading defusedxml-0.6.0-py2.py3-none-any.whl (23 kB)
+Collecting nbclient<0.6.0,>=0.5.0
+  Downloading nbclient-0.5.2-py3-none-any.whl (65 kB)
+Collecting nest-asyncio
+  Downloading nest_asyncio-1.5.1-py3-none-any.whl (5.0 kB)
+Collecting async-generator
+  Downloading async_generator-1.10-py3-none-any.whl (18 kB)
+Collecting webencodings
+  Downloading webencodings-0.5.1-py2.py3-none-any.whl (11 kB)
+Requirement already satisfied: pyparsing>=2.0.2 in /usr/local/lib/python3.7/site-packages (from packaging->jupyterlab) (2.4.7)
+Requirement already satisfied: chardet<5,>=3.0.2 in /usr/local/lib/python3.7/site-packages (from requests->jupyterlab-server~=2.0->jupyterlab) (4.0.0)
+Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.7/site-packages (from requests->jupyterlab-server~=2.0->jupyterlab) (2020.12.5)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /usr/local/lib/python3.7/site-packages (from requests->jupyterlab-server~=2.0->jupyterlab) (1.26.3)
+Building wheels for collected packages: pyrsistent, pandocfilters
+  Building wheel for pyrsistent (setup.py): started
+  Building wheel for pyrsistent (setup.py): finished with status 'done'
+  Created wheel for pyrsistent: filename=pyrsistent-0.17.3-cp37-cp37m-linux_x86_64.whl size=123680 sha256=a938d1cca62ca835f4cf3d56b6f3c2271e73c0050587a90d3b3091d45a0e944a
+  Stored in directory: /root/.cache/pip/wheels/a5/52/bf/71258a1d7b3c8cbe1ee53f9314c6f65f20385481eaee573cc5
+  Building wheel for pandocfilters (setup.py): started
+  Building wheel for pandocfilters (setup.py): finished with status 'done'
+  Created wheel for pandocfilters: filename=pandocfilters-1.4.3-py3-none-any.whl size=7992 sha256=d7abd708e37c73dd4697c94bfb56272d7a5fb7072be59738ef4a7f5dde4833aa
+  Stored in directory: /root/.cache/pip/wheels/42/81/34/545dc2fbf0e9137811e901108d37fc04650e81d48f97078000
+Successfully built pyrsistent pandocfilters
+Installing collected packages: ipython-genutils, traitlets, pyrsistent, tornado, pyzmq, ptyprocess, parso, jupyter-core, jsonschema, webencodings, pygments, prompt-toolkit, pickleshare, pexpect, nest-asyncio, nbformat, jupyter-client, jedi, decorator, backcall, async-generator, testpath, sniffio, pandocfilters, nbclient, mistune, jupyterlab-pygments, ipython, entrypoints, defusedxml, bleach, terminado, Send2Trash, prometheus-client, nbconvert, ipykernel, argon2-cffi, anyio, notebook, jupyter-server, json5, babel, nbclassic, jupyterlab-server, jupyterlab
+Successfully installed Send2Trash-1.5.0 anyio-2.1.0 argon2-cffi-20.1.0 async-generator-1.10 babel-2.9.0 backcall-0.2.0 bleach-3.3.0 decorator-4.4.2 defusedxml-0.6.0 entrypoints-0.3 ipykernel-5.4.3 ipython-7.20.0 ipython-genutils-0.2.0 jedi-0.18.0 json5-0.9.5 jsonschema-3.2.0 jupyter-client-6.1.11 jupyter-core-4.7.1 jupyter-server-1.3.0 jupyterlab-3.0.7 jupyterlab-pygments-0.1.2 jupyterlab-server-2.2.0 mistune-0.8.4 nbclassic-0.2.6 nbclient-0.5.2 nbconvert-6.0.7 nbformat-5.1.2 nest-asyncio-1.5.1 notebook-6.2.0 pandocfilters-1.4.3 parso-0.8.1 pexpect-4.8.0 pickleshare-0.7.5 prometheus-client-0.9.0 prompt-toolkit-3.0.16 ptyprocess-0.7.0 pygments-2.7.4 pyrsistent-0.17.3 pyzmq-22.0.2 sniffio-1.2.0 terminado-0.9.2 testpath-0.4.4 tornado-6.1 traitlets-5.0.5 webencodings-0.5.1
+Removing intermediate container bdb97c4f2749
+ ---> 98ab9981540d
+Step 9/15 : ENV C_FORCE_ROOT=1
+ ---> Running in 7e629dc5bd01
+Removing intermediate container 7e629dc5bd01
+ ---> 7305e4780b95
+Step 10/15 : COPY ./app /app
+ ---> d0f9bd601158
+Step 11/15 : WORKDIR /app
+ ---> Running in 1cb3bcefe7b1
+Removing intermediate container 1cb3bcefe7b1
+ ---> 0f81bd5e7aad
+Step 12/15 : ENV PYTHONPATH=/app
+ ---> Running in cf980d3ae4ea
+Removing intermediate container cf980d3ae4ea
+ ---> 7c852e95cbde
+Step 13/15 : COPY ./app/worker-start.sh /worker-start.sh
+ ---> 58695b64b26d
+Step 14/15 : RUN chmod +x /worker-start.sh
+ ---> Running in 7856b201c131
+Removing intermediate container 7856b201c131
+ ---> 5c424426264c
+Step 15/15 : CMD ["bash", "/worker-start.sh"]
+ ---> Running in a5fad58479d1
+Removing intermediate container a5fad58479d1
+ ---> 4a510ed0696f
+
+Successfully built 4a510ed0696f
+Successfully tagged asyncioceleryworker:latest
+Step 1/10 : FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
+ ---> e2f19ac0b4e3
+Step 2/10 : WORKDIR /app/
+ ---> Running in 38c0a182432b
+Removing intermediate container 38c0a182432b
+ ---> ca04876dc5d7
+Step 3/10 : RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_HOME=/opt/poetry python &&     cd /usr/local/bin &&     ln -s /opt/poetry/bin/poetry &&     poetry config virtualenvs.create false
+ ---> Running in 39b3c3f46c8e
+Retrieving Poetry metadata
+
+# Welcome to Poetry!
+
+This will download and install the latest version of Poetry,
+a dependency and package manager for Python.
+
+It will add the `poetry` command to Poetry's bin directory, located at:
+
+/opt/poetry/bin
+
+This path will then be added to your `PATH` environment variable by
+modifying the profile file located at:
+
+$HOME/.profile
+
+You can uninstall at any time by executing this script with the --uninstall option,
+and these changes will be reverted.
+
+Installing version: 1.1.4
+  - Downloading poetry-1.1.4-linux.tar.gz (57.03MB)
+
+Poetry (1.1.4) is installed now. Great!
+
+To get started you need Poetry's bin directory (/opt/poetry/bin) in your `PATH`
+environment variable. Next time you log in this will be done
+automatically.
+
+To configure your current shell run `source /opt/poetry/env`
+
+Removing intermediate container 39b3c3f46c8e
+ ---> c642134c7f05
+Step 4/10 : COPY ./app/pyproject.toml ./app/poetry.lock* /app/
+ ---> a02644fa90fd
+Step 5/10 : ARG INSTALL_DEV=false
+ ---> Running in 820f6dc90466
+Removing intermediate container 820f6dc90466
+ ---> 6e1820f28153
+Step 6/10 : RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; else poetry install --no-root --no-dev ; fi"
+ ---> Running in 594d32dbecfa
+Skipping virtualenv creation, as specified in config file.
+Updating dependencies
+Resolving dependencies...
+
+Writing lock file
+
+Package operations: 68 installs, 5 updates, 0 removals
+
+  • Installing typing-extensions (3.7.4.3)
+  • Installing zipp (3.4.0)
+  • Installing certifi (2020.12.5)
+  • Installing chardet (4.0.0)
+  • Installing idna (2.10)
+  • Installing importlib-metadata (3.4.0)
+  • Installing pycparser (2.20)
+  • Installing pyparsing (2.4.7)
+  • Installing urllib3 (1.26.3)
+  • Installing vine (1.3.0)
+  • Installing amqp (2.6.1)
+  • Installing attrs (20.3.0)
+  • Installing cachetools (4.2.1)
+  • Installing cffi (1.14.5)
+  • Installing cssselect (1.1.0)
+  • Installing cssutils (1.0.2)
+  • Installing lxml (4.6.2)
+  • Installing markupsafe (1.1.1)
+  • Installing more-itertools (8.7.0)
+  • Installing mypy-extensions (0.4.3)
+  • Installing packaging (20.9)
+  • Installing pluggy (0.13.1)
+  • Installing py (1.10.0)
+  • Installing pyasn1 (0.4.8)
+  • Installing requests (2.25.1)
+  • Installing six (1.15.0)
+  • Installing typed-ast (1.4.2)
+  • Installing wcwidth (0.2.5)
+  • Installing appdirs (1.4.4)
+  • Installing bcrypt (3.2.0)
+  • Installing billiard (3.6.3.0)
+  • Updating click (7.1.1 -> 7.1.2)
+  • Installing coverage (5.4)
+  • Installing dnspython (2.1.0)
+  • Installing ecdsa (0.14.1)
+  • Installing cryptography (3.4.4)
+  • Installing kombu (4.6.11)
+  • Installing mako (1.1.4)
+  • Installing mccabe (0.6.1)
+  • Installing mypy (0.770)
+  • Installing pathspec (0.8.1)
+  • Installing premailer (3.7.0)
+  • Installing pycodestyle (2.6.0)
+  • Installing pyflakes (2.2.0)
+  • Installing pytest (5.4.3)
+  • Installing python-dateutil (2.8.1)
+  • Installing python-editor (1.0.4)
+  • Installing pytz (2021.1)
+  • Installing regex (2020.11.13)
+  • Installing rsa (4.7)
+  • Installing sqlalchemy (1.3.23)
+  • Updating starlette (0.13.6 -> 0.13.2)
+  • Installing toml (0.10.2)
+  • Updating uvloop (0.14.0 -> 0.15.0)
+  • Installing alembic (1.5.4)
+  • Installing autoflake (1.4)
+  • Installing black (19.10b0)
+  • Installing celery (4.4.7)
+  • Installing email-validator (1.1.2)
+  • Installing emails (0.5.15)
+  • Updating fastapi (0.62.0 -> 0.54.2)
+  • Installing flake8 (3.8.4)
+  • Installing isort (4.3.21)
+  • Installing jinja2 (2.11.3)
+  • Installing passlib (1.7.4)
+  • Installing psycopg2-binary (2.8.6)
+  • Installing pytest-cov (2.11.1)
+  • Installing python-jose (3.2.0)
+  • Installing python-multipart (0.0.5)
+  • Installing raven (6.10.0)
+  • Installing sqlalchemy-stubs (0.3)
+  • Installing tenacity (6.3.1)
+  • Updating uvicorn (0.11.3 -> 0.11.8)
+Removing intermediate container 594d32dbecfa
+ ---> 2c251c6617e1
+Step 7/10 : ARG INSTALL_JUPYTER=false
+ ---> Running in df34bda6c315
+Removing intermediate container df34bda6c315
+ ---> 6aec01efba9b
+Step 8/10 : RUN bash -c "if [ $INSTALL_JUPYTER == 'true' ] ; then pip install jupyterlab ; fi"
+ ---> Running in bcb05431ae4d
+Collecting jupyterlab
+  Downloading jupyterlab-3.0.7-py3-none-any.whl (8.3 MB)
+Requirement already satisfied: packaging in /usr/local/lib/python3.7/site-packages (from jupyterlab) (20.9)
+Collecting nbclassic~=0.2
+  Downloading nbclassic-0.2.6-py3-none-any.whl (18 kB)
+Requirement already satisfied: jinja2>=2.10 in /usr/local/lib/python3.7/site-packages (from jupyterlab) (2.11.3)
+Collecting jupyterlab-server~=2.0
+  Downloading jupyterlab_server-2.2.0-py3-none-any.whl (45 kB)
+Collecting jupyter-core
+  Downloading jupyter_core-4.7.1-py3-none-any.whl (82 kB)
+Collecting tornado>=6.1.0
+  Downloading tornado-6.1-cp37-cp37m-manylinux2010_x86_64.whl (428 kB)
+Collecting ipython
+  Downloading ipython-7.20.0-py3-none-any.whl (784 kB)
+Collecting jupyter-server~=1.2
+  Downloading jupyter_server-1.3.0-py3-none-any.whl (188 kB)
+Requirement already satisfied: pyparsing>=2.0.2 in /usr/local/lib/python3.7/site-packages (from packaging->jupyterlab) (2.4.7)
+Collecting notebook<7
+  Downloading notebook-6.2.0-py3-none-any.whl (9.5 MB)
+Requirement already satisfied: MarkupSafe>=0.23 in /usr/local/lib/python3.7/site-packages (from jinja2>=2.10->jupyterlab) (1.1.1)
+Collecting jsonschema>=3.0.1
+  Downloading jsonschema-3.2.0-py2.py3-none-any.whl (56 kB)
+Requirement already satisfied: requests in /usr/local/lib/python3.7/site-packages (from jupyterlab-server~=2.0->jupyterlab) (2.25.1)
+Collecting json5
+  Downloading json5-0.9.5-py2.py3-none-any.whl (17 kB)
+Collecting babel
+  Downloading Babel-2.9.0-py2.py3-none-any.whl (8.8 MB)
+Collecting traitlets
+  Downloading traitlets-5.0.5-py3-none-any.whl (100 kB)
+Requirement already satisfied: setuptools>=18.5 in /usr/local/lib/python3.7/site-packages (from ipython->jupyterlab) (46.1.3)
+Collecting backcall
+  Downloading backcall-0.2.0-py2.py3-none-any.whl (11 kB)
+Collecting pygments
+  Downloading Pygments-2.7.4-py3-none-any.whl (950 kB)
+Collecting pexpect>4.3; sys_platform != "win32"
+  Downloading pexpect-4.8.0-py2.py3-none-any.whl (59 kB)
+Collecting jedi>=0.16
+  Downloading jedi-0.18.0-py2.py3-none-any.whl (1.4 MB)
+Collecting pickleshare
+  Downloading pickleshare-0.7.5-py2.py3-none-any.whl (6.9 kB)
+Collecting decorator
+  Downloading decorator-4.4.2-py2.py3-none-any.whl (9.2 kB)
+Collecting prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0
+  Downloading prompt_toolkit-3.0.16-py3-none-any.whl (366 kB)
+Collecting nbformat
+  Downloading nbformat-5.1.2-py3-none-any.whl (113 kB)
+Collecting prometheus-client
+  Downloading prometheus_client-0.9.0-py2.py3-none-any.whl (53 kB)
+Collecting ipython-genutils
+  Downloading ipython_genutils-0.2.0-py2.py3-none-any.whl (26 kB)
+Collecting Send2Trash
+  Downloading Send2Trash-1.5.0-py3-none-any.whl (12 kB)
+Collecting jupyter-client>=6.1.1
+  Downloading jupyter_client-6.1.11-py3-none-any.whl (108 kB)
+Collecting terminado>=0.8.3
+  Downloading terminado-0.9.2-py3-none-any.whl (14 kB)
+Collecting nbconvert
+  Downloading nbconvert-6.0.7-py3-none-any.whl (552 kB)
+Collecting anyio>=2.0.2
+  Downloading anyio-2.1.0-py3-none-any.whl (64 kB)
+Collecting pyzmq>=17
+  Downloading pyzmq-22.0.2-cp37-cp37m-manylinux1_x86_64.whl (1.1 MB)
+Collecting ipykernel
+  Downloading ipykernel-5.4.3-py3-none-any.whl (120 kB)
+Collecting argon2-cffi
+  Downloading argon2_cffi-20.1.0-cp35-abi3-manylinux1_x86_64.whl (97 kB)
+Requirement already satisfied: six>=1.11.0 in /usr/local/lib/python3.7/site-packages (from jsonschema>=3.0.1->jupyterlab-server~=2.0->jupyterlab) (1.15.0)
+Requirement already satisfied: importlib-metadata; python_version < "3.8" in /usr/local/lib/python3.7/site-packages (from jsonschema>=3.0.1->jupyterlab-server~=2.0->jupyterlab) (3.4.0)
+Collecting pyrsistent>=0.14.0
+  Downloading pyrsistent-0.17.3.tar.gz (106 kB)
+Requirement already satisfied: attrs>=17.4.0 in /usr/local/lib/python3.7/site-packages (from jsonschema>=3.0.1->jupyterlab-server~=2.0->jupyterlab) (20.3.0)
+Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.7/site-packages (from requests->jupyterlab-server~=2.0->jupyterlab) (2020.12.5)
+Requirement already satisfied: idna<3,>=2.5 in /usr/local/lib/python3.7/site-packages (from requests->jupyterlab-server~=2.0->jupyterlab) (2.10)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /usr/local/lib/python3.7/site-packages (from requests->jupyterlab-server~=2.0->jupyterlab) (1.26.3)
+Requirement already satisfied: chardet<5,>=3.0.2 in /usr/local/lib/python3.7/site-packages (from requests->jupyterlab-server~=2.0->jupyterlab) (4.0.0)
+Requirement already satisfied: pytz>=2015.7 in /usr/local/lib/python3.7/site-packages (from babel->jupyterlab-server~=2.0->jupyterlab) (2021.1)
+Collecting ptyprocess>=0.5
+  Downloading ptyprocess-0.7.0-py2.py3-none-any.whl (13 kB)
+Collecting parso<0.9.0,>=0.8.0
+  Downloading parso-0.8.1-py2.py3-none-any.whl (93 kB)
+Requirement already satisfied: wcwidth in /usr/local/lib/python3.7/site-packages (from prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0->ipython->jupyterlab) (0.2.5)
+Requirement already satisfied: python-dateutil>=2.1 in /usr/local/lib/python3.7/site-packages (from jupyter-client>=6.1.1->jupyter-server~=1.2->jupyterlab) (2.8.1)
+Collecting entrypoints>=0.2.2
+  Downloading entrypoints-0.3-py2.py3-none-any.whl (11 kB)
+Collecting nbclient<0.6.0,>=0.5.0
+  Downloading nbclient-0.5.2-py3-none-any.whl (65 kB)
+Collecting defusedxml
+  Downloading defusedxml-0.6.0-py2.py3-none-any.whl (23 kB)
+Collecting jupyterlab-pygments
+  Downloading jupyterlab_pygments-0.1.2-py2.py3-none-any.whl (4.6 kB)
+Collecting bleach
+  Downloading bleach-3.3.0-py2.py3-none-any.whl (283 kB)
+Collecting pandocfilters>=1.4.1
+  Downloading pandocfilters-1.4.3.tar.gz (16 kB)
+Collecting mistune<2,>=0.8.1
+  Downloading mistune-0.8.4-py2.py3-none-any.whl (16 kB)
+Collecting testpath
+  Downloading testpath-0.4.4-py2.py3-none-any.whl (163 kB)
+Requirement already satisfied: typing-extensions; python_version < "3.8" in /usr/local/lib/python3.7/site-packages (from anyio>=2.0.2->jupyter-server~=1.2->jupyterlab) (3.7.4.3)
+Collecting sniffio>=1.1
+  Downloading sniffio-1.2.0-py3-none-any.whl (10 kB)
+Requirement already satisfied: cffi>=1.0.0 in /usr/local/lib/python3.7/site-packages (from argon2-cffi->notebook<7->nbclassic~=0.2->jupyterlab) (1.14.5)
+Requirement already satisfied: zipp>=0.5 in /usr/local/lib/python3.7/site-packages (from importlib-metadata; python_version < "3.8"->jsonschema>=3.0.1->jupyterlab-server~=2.0->jupyterlab) (3.4.0)
+Collecting async-generator
+  Downloading async_generator-1.10-py3-none-any.whl (18 kB)
+Collecting nest-asyncio
+  Downloading nest_asyncio-1.5.1-py3-none-any.whl (5.0 kB)
+Collecting webencodings
+  Downloading webencodings-0.5.1-py2.py3-none-any.whl (11 kB)
+Requirement already satisfied: pycparser in /usr/local/lib/python3.7/site-packages (from cffi>=1.0.0->argon2-cffi->notebook<7->nbclassic~=0.2->jupyterlab) (2.20)
+Building wheels for collected packages: pyrsistent, pandocfilters
+  Building wheel for pyrsistent (setup.py): started
+  Building wheel for pyrsistent (setup.py): finished with status 'done'
+  Created wheel for pyrsistent: filename=pyrsistent-0.17.3-cp37-cp37m-linux_x86_64.whl size=123638 sha256=eec3747190563eb2e2517c291a68e1c33b2846445b44dcc342920cf422da3cde
+  Stored in directory: /root/.cache/pip/wheels/a5/52/bf/71258a1d7b3c8cbe1ee53f9314c6f65f20385481eaee573cc5
+  Building wheel for pandocfilters (setup.py): started
+  Building wheel for pandocfilters (setup.py): finished with status 'done'
+  Created wheel for pandocfilters: filename=pandocfilters-1.4.3-py3-none-any.whl size=7991 sha256=6d75ee0d48fa006cefc9e18418f4044d4fbc930167d163440c215e72d8595f2c
+  Stored in directory: /root/.cache/pip/wheels/42/81/34/545dc2fbf0e9137811e901108d37fc04650e81d48f97078000
+Successfully built pyrsistent pandocfilters
+Installing collected packages: pyrsistent, jsonschema, ipython-genutils, traitlets, jupyter-core, nbformat, tornado, pyzmq, jupyter-client, backcall, pygments, ptyprocess, pexpect, parso, jedi, pickleshare, decorator, prompt-toolkit, ipython, ipykernel, prometheus-client, terminado, argon2-cffi, entrypoints, async-generator, nest-asyncio, nbclient, defusedxml, jupyterlab-pygments, webencodings, bleach, pandocfilters, mistune, testpath, nbconvert, Send2Trash, notebook, sniffio, anyio, jupyter-server, nbclassic, json5, babel, jupyterlab-server, jupyterlab
+Successfully installed Send2Trash-1.5.0 anyio-2.1.0 argon2-cffi-20.1.0 async-generator-1.10 babel-2.9.0 backcall-0.2.0 bleach-3.3.0 decorator-4.4.2 defusedxml-0.6.0 entrypoints-0.3 ipykernel-5.4.3 ipython-7.20.0 ipython-genutils-0.2.0 jedi-0.18.0 json5-0.9.5 jsonschema-3.2.0 jupyter-client-6.1.11 jupyter-core-4.7.1 jupyter-server-1.3.0 jupyterlab-3.0.7 jupyterlab-pygments-0.1.2 jupyterlab-server-2.2.0 mistune-0.8.4 nbclassic-0.2.6 nbclient-0.5.2 nbconvert-6.0.7 nbformat-5.1.2 nest-asyncio-1.5.1 notebook-6.2.0 pandocfilters-1.4.3 parso-0.8.1 pexpect-4.8.0 pickleshare-0.7.5 prometheus-client-0.9.0 prompt-toolkit-3.0.16 ptyprocess-0.7.0 pygments-2.7.4 pyrsistent-0.17.3 pyzmq-22.0.2 sniffio-1.2.0 terminado-0.9.2 testpath-0.4.4 tornado-6.1 traitlets-5.0.5 webencodings-0.5.1
+[91mWARNING: You are using pip version 20.0.2; however, version 21.0.1 is available.
+You should consider upgrading via the '/usr/local/bin/python -m pip install --upgrade pip' command.
+[0mRemoving intermediate container bcb05431ae4d
+ ---> fa5ab4221c90
+Step 9/10 : COPY ./app /app
+ ---> ceda9db7d884
+Step 10/10 : ENV PYTHONPATH=/app
+ ---> Running in fc44c3cc2fff
+Removing intermediate container fc44c3cc2fff
+ ---> 261375dacb73
+
+Successfully built 261375dacb73
+Successfully tagged asynciobackend:latest
+Step 1/13 : FROM tiangolo/node-frontend:10 as build-stage
+ ---> 46be30c070b7
+Step 2/13 : WORKDIR /app
+ ---> Running in 0761840f07ca
+Removing intermediate container 0761840f07ca
+ ---> d4bbdaa25a5d
+Step 3/13 : COPY package*.json /app/
+ ---> 93bcfeb16eed
+Step 4/13 : RUN npm install
+ ---> Running in 53d83b01c305
+[91mnpm[0m[91m WARN[0m[91m deprecated @babel/polyfill@7.12.1: 🚨 This package has been deprecated in favor of separate inclusion of a polyfill and regenerator-runtime (when needed). See the @babel/polyfill docs (https://babeljs.io/docs/en/babel-polyfill) for more information.
+[0m[91mnpm WARN deprecated[0m[91m axios@0.18.1: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410
+[0m[91mnpm WARN deprecated core-js@2.6.12: core-js@<3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.
+[0m[91mnpm WARN deprecated @hapi/joi@15.1.1: Switch to 'npm install joi'
+[0m[91mnpm WARN deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+[0m[91mnpm WARN deprecated chokidar@2.1.8: Chokidar 2 will break on node v14+. Upgrade to chokidar 3 with 15x less dependencies.
+[0m[91mnpm WARN deprecated @hapi/address@2.1.4: Moved to 'npm install @sideway/address'
+[0m[91mnpm WARN deprecated @hapi/bourne@1.3.2: This version has been deprecated and is no longer supported or maintained
+[0m[91mnpm WARN deprecated @hapi/topo@3.1.6: This version has been deprecated and is no longer supported or maintained
+[0m[91mnpm WARN deprecated @hapi/hoek@8.5.1: This version has been deprecated and is no longer supported or maintained
+[0m[91mnpm WARN deprecated har-validator@5.1.5: this library is no longer supported
+[0m[91mnpm WARN deprecated fsevents@1.2.13: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+[0m[91mnpm WARN deprecated request-promise-native@1.0.9: request-promise-native has been deprecated because it extends the now deprecated request package, see https://github.com/request/request/issues/3142
+[0m[91mnpm WARN deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
+[0m[91mnpm WARN deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
+[0m[91mnpm WARN deprecated left-pad@1.3.0: use String.prototype.padStart()
+[0m
+> deasync@0.1.21 install /app/node_modules/deasync
+> node ./build.js
+
+`linux-x64-node-10` exists; testing
+Binary is fine; exiting
+
+> yorkie@2.0.0 install /app/node_modules/yorkie
+> node bin/install.js
+
+setting up Git hooks
+can't find .git directory, skipping Git hooks installation
+
+> core-js@2.6.12 postinstall /app/node_modules/@babel/polyfill/node_modules/core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+[96mThank you for using core-js ([94m https://github.com/zloirock/core-js [96m) for polyfilling JavaScript standard library![0m
+
+[96mThe project needs your help! Please consider supporting of core-js on Open Collective or Patreon: [0m
+[96m>[94m https://opencollective.com/core-js [0m
+[96m>[94m https://www.patreon.com/zloirock [0m
+
+[96mAlso, the author of core-js ([94m https://github.com/zloirock [96m) is looking for a good job -)[0m
+
+
+> core-js@2.6.12 postinstall /app/node_modules/babel-runtime/node_modules/core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+[96mThank you for using core-js ([94m https://github.com/zloirock/core-js [96m) for polyfilling JavaScript standard library![0m
+
+[96mThe project needs your help! Please consider supporting of core-js on Open Collective or Patreon: [0m
+[96m>[94m https://opencollective.com/core-js [0m
+[96m>[94m https://www.patreon.com/zloirock [0m
+
+[96mAlso, the author of core-js ([94m https://github.com/zloirock [96m) is looking for a good job -)[0m
+
+
+> core-js@3.8.3 postinstall /app/node_modules/core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+[96mThank you for using core-js ([94m https://github.com/zloirock/core-js [96m) for polyfilling JavaScript standard library![0m
+
+[96mThe project needs your help! Please consider supporting of core-js on Open Collective or Patreon: [0m
+[96m>[94m https://opencollective.com/core-js [0m
+[96m>[94m https://www.patreon.com/zloirock [0m
+
+[96mAlso, the author of core-js ([94m https://github.com/zloirock [96m) is looking for a good job -)[0m
+
+
+> ejs@2.7.4 postinstall /app/node_modules/ejs
+> node ./postinstall.js
+
+Thank you for installing [35mEJS[0m: built with the [32mJake[0m JavaScript build tool ([32mhttps://jakejs.com/[0m)
+
+[91mnpm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@~2.3.1 (node_modules/chokidar/node_modules/fsevents):
+npm[0m[91m WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.3.2: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+[0m[91mnpm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.2.7 (node_modules/watchpack-chokidar2/node_modules/chokidar/node_modules/fsevents):
+[0m[91mnpm WARN notsup[0m[91m SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+npm WARN [0m[91moptional SKIPPING OPTIONAL DEPENDENCY: fork-ts-checker-webpack-plugin-v5@npm:fork-ts-checker-webpack-plugin@^5.0.11 (node_modules/@vue/cli-plugin-typescript/node_modules/fork-ts-checker-webpack-plugin-v5):
+[0m[91mnpm WARN optional[0m[91m SKIPPING OPTIONAL DEPENDENCY: Invalid dependency type requested: alias
+[0m[91mnpm WARN[0m[91m [0m[91moptional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.2.7 (node_modules/jest-haste-map/node_modules/fsevents):
+npm [0m[91mWARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+[0m[91mnpm WARN[0m[91m optional SKIPPING OPTIONAL DEPENDENCY: vue-loader-v16@npm:vue-loader@^16.1.0 (node_modules/@vue/cli-service/node_modules/vue-loader-v16):
+[0m[91mnpm [0m[91mWARN[0m[91m optional SKIPPING OPTIONAL DEPENDENCY: Invalid dependency type requested: alias
+[0m[91mnpm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.2.7 (node_modules/webpack-dev-server/node_modules/chokidar/node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+[0m[91mnpm WARN @vue/cli-plugin-typescript@4.5.11 requires a peer of @vue/compiler-sfc@^3.0.0-beta.14 but none is installed. You must install peer dependencies yourself.
+[0m[91mnpm WARN[0m[91m @vue/cli-service@4.5.11 requires a peer of @vue/compiler-sfc@^3.0.0-beta.14 but none is installed. You must install peer dependencies yourself.
+[0m[91mnpm WARN[0m[91m ts-jest@23.10.5 requires a peer of jest@>=22 <24 but none is installed. You must install peer dependencies yourself.
+[0m[91mnpm[0m[91m WARN jsdom@15.2.1 requires a peer of canvas@^2.5.0 but none is installed. You must install peer dependencies yourself.
+[0m[91mnpm [0m[91mWARN[0m[91m ws@7.4.3 requires a peer of bufferutil@^4.0.1 but none is installed. You must install peer dependencies yourself.
+[0m[91mnpm WARN[0m[91m ws@7.4.3 requires a peer of utf-8-validate@^5.0.2 but none is installed. You must install peer dependencies yourself.
+[0m[91m
+[0madded 1541 packages from 1202 contributors, removed 13 packages, moved 2 packages and audited 1576 packages in 124.842s
+found 295 vulnerabilities (294 low, 1 high)
+  run `npm audit fix` to fix them, or `npm audit` for details
+Removing intermediate container 53d83b01c305
+ ---> f851f4a0160c
+Step 5/13 : COPY ./ /app/
+ ---> d59cded99688
+Step 6/13 : ARG FRONTEND_ENV=production
+ ---> Running in 3147fbb7ee9b
+Removing intermediate container 3147fbb7ee9b
+ ---> e8d0e7eca353
+Step 7/13 : ENV VUE_APP_ENV=${FRONTEND_ENV}
+ ---> Running in abbe58284a60
+Removing intermediate container abbe58284a60
+ ---> cbbc1c2b90a0
+Step 8/13 : RUN npm run test:unit
+ ---> Running in da3bb1fc01a3
+
+> frontend@0.1.0 test:unit /app
+> vue-cli-service test:unit
+
+[91mts-jest[versions] (WARN) Version 24.9.0 of jest installed has not been tested with ts-jest. If you're experiencing issues, consider using a supported version (>=22.0.0 <24.0.0). Please do not report issues in ts-jest if you are using unsupported versions.
+[0m[91mPASS tests/unit/upload-button.spec.ts (12.116s)
+[0m[91m  UploadButton.vue
+[0m[91m    ✓ renders props.title when passed (96ms)
+
+[0m[91mTest Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        13.66s
+Ran all test suites.
+[0mRemoving intermediate container da3bb1fc01a3
+ ---> a15484cb02f9
+Step 9/13 : RUN npm run build
+ ---> Running in 7f3aa56da06e
+
+> frontend@0.1.0 build /app
+> vue-cli-service build
+
+
+[91m-  Building for production...
+[0mStarting type checking and linting service...
+Using 1 worker with 2048MB memory limit
+[91m
+  `@babel/polyfill` is deprecated. Please, use required parts of `core-js`
+  and `regenerator-runtime/runtime` separately
+[0m WARNING  Compiled with 2 warnings10:51:26 PM
+
+ warning  
+
+asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  js/chunk-vendors.2b582696.js (900 KiB)
+
+ warning  
+
+entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  app (1.15 MiB)
+      css/chunk-vendors.d2c19747.css
+      js/chunk-vendors.2b582696.js
+      js/app.9c4fd3f9.js
+
+
+  File                                      Size             Gzipped
+
+  dist/js/chunk-vendors.2b582696.js         899.77 KiB       219.57 KiB
+  dist/js/app.9c4fd3f9.js                   35.38 KiB        7.61 KiB
+  dist/js/main-admin-users-edit.41d1b68a    7.45 KiB         2.49 KiB
+  .js
+  dist/js/main.8eaf9ebf.js                  7.03 KiB         2.26 KiB
+  dist/js/main-admin-users-create.93c00d    6.66 KiB         2.31 KiB
+  0d.js
+  dist/js/reset-password.d2415aad.js        5.69 KiB         2.20 KiB
+  dist/js/main-profile-password.9098298b    5.26 KiB         1.99 KiB
+  .js
+  dist/js/main-profile-edit.b140a0d4.js     4.81 KiB         1.90 KiB
+  dist/js/main-admin-users.395b6541.js      4.41 KiB         1.78 KiB
+  dist/js/login.a3931e67.js                 4.15 KiB         1.66 KiB
+  dist/js/recover-password.5230d60d.js      4.07 KiB         1.71 KiB
+  dist/js/main-profile.6cde4ab1.js          3.74 KiB         1.38 KiB
+  dist/js/start.a54ebc7a.js                 3.47 KiB         1.43 KiB
+  dist/js/main-admin.689ed85d.js            3.32 KiB         1.37 KiB
+  dist/js/main-dashboard.3a457101.js        3.14 KiB         1.30 KiB
+  dist/precache-manifest.edd80e13beb892e    1.76 KiB         0.63 KiB
+  c4bc65145c2bd5a4a.js
+  dist/service-worker.js                    1.04 KiB         0.61 KiB
+  dist/css/chunk-vendors.d2c19747.css       243.87 KiB       31.36 KiB
+
+  Images and other types of assets omitted.
+
+ DONE  Build complete. The dist directory is ready to be deployed.
+ INFO  Check out deployment instructions at https://cli.vuejs.org/guide/deployment.html
+      
+Removing intermediate container 7f3aa56da06e
+ ---> 93838b9c4628
+
+Step 10/13 : FROM nginx:1.15
+ ---> 53f3fd8007f7
+Step 11/13 : COPY --from=build-stage /app/dist/ /usr/share/nginx/html
+ ---> 8c79057651ca
+Step 12/13 : COPY --from=build-stage /nginx.conf /etc/nginx/conf.d/default.conf
+ ---> b168bc4bef0a
+Step 13/13 : COPY ./nginx-backend-not-found.conf /etc/nginx/extra-conf.d/backend-not-found.conf
+ ---> 1ef380ee275f
+
+Successfully built 1ef380ee275f
+Successfully tagged asynciofrontend:latest
+latest: Pulling from mher/flower
+Digest: sha256:e9c931bf7bdb1c975d49029c89fce0fef18d2dd7a1cec1d39dff48cf26c6a3bd
+Status: Downloaded newer image for mher/flower:latest
+Attaching to asyncio-auto-dial_db_1, asyncio-auto-dial_frontend_1, asyncio-auto-dial_queue_1, asyncio-auto-dial_proxy_1, asyncio-auto-dial_flower_1, asyncio-auto-dial_celeryworker_1, asyncio-auto-dial_backend_1, asyncio-auto-dial_pgadmin_1
+[32mdb_1            |[0m The files belonging to this database system will be owned by user "postgres".
+[32mdb_1            |[0m This user must also own the server process.
+[32mdb_1            |[0m 
+[32mdb_1            |[0m The database cluster will be initialized with locale "en_US.utf8".
+[32mdb_1            |[0m The default database encoding has accordingly been set to "UTF8".
+[32mdb_1            |[0m The default text search configuration will be set to "english".
+[32mdb_1            |[0m 
+[32mdb_1            |[0m Data page checksums are disabled.
+[32mdb_1            |[0m 
+[32mdb_1            |[0m fixing permissions on existing directory /var/lib/postgresql/data/pgdata ... ok
+[32mdb_1            |[0m creating subdirectories ... ok
+[32mdb_1            |[0m selecting dynamic shared memory implementation ... posix
+[32mdb_1            |[0m selecting default max_connections ... 100
+[32mdb_1            |[0m selecting default shared_buffers ... 128MB
+[32mdb_1            |[0m selecting default time zone ... Etc/UTC
+[32mdb_1            |[0m creating configuration files ... ok
+[32mdb_1            |[0m running bootstrap script ... ok
+[32mdb_1            |[0m performing post-bootstrap initialization ... ok
+[35mflower_1        |[0m [I 210211 22:51:55 command:135] Visit me at http://localhost:5555
+[35mflower_1        |[0m [I 210211 22:51:56 command:142] Broker: amqp://guest:**@queue:5672//
+[35mflower_1        |[0m [I 210211 22:51:56 command:143] Registered tasks: 
+[35mflower_1        |[0m     ['celery.accumulate',
+[35mflower_1        |[0m      'celery.backend_cleanup',
+[35mflower_1        |[0m      'celery.chain',
+[35mflower_1        |[0m      'celery.chord',
+[35mflower_1        |[0m      'celery.chord_unlock',
+[35mflower_1        |[0m      'celery.chunks',
+[35mflower_1        |[0m      'celery.group',
+[35mflower_1        |[0m      'celery.map',
+[35mflower_1        |[0m      'celery.starmap']
+[33;1mproxy_1         |[0m time="2021-02-11T22:51:54Z" level=info msg="Configuration loaded from flags."
+[36mbackend_1       |[0m Checking for script in /app/prestart.sh
+[36mbackend_1       |[0m Running script /app/prestart.sh
+[32mdb_1            |[0m syncing data to disk ... ok
+[32mdb_1            |[0m 
+[32mdb_1            |[0m 
+[32mdb_1            |[0m Success. You can now start the database server using:
+[32mdb_1            |[0m 
+[32mdb_1            |[0m     pg_ctl -D /var/lib/postgresql/data/pgdata -l logfile start
+[32mdb_1            |[0m 
+[32mdb_1            |[0m initdb: warning: enabling "trust" authentication for local connections
+[32mdb_1            |[0m You can change this by editing pg_hba.conf or using the option -A, or
+[32mdb_1            |[0m --auth-local and --auth-host, the next time you run initdb.
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:51:57 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 1 "api@internal" "-" 0ms
+[32mdb_1            |[0m waiting for server to start....2021-02-11 22:51:57.320 UTC [48] LOG:  starting PostgreSQL 12.5 (Debian 12.5-1.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 8.3.0-6) 8.3.0, 64-bit
+[32mdb_1            |[0m 2021-02-11 22:51:57.339 UTC [48] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+[32mdb_1            |[0m 2021-02-11 22:51:57.443 UTC [49] LOG:  database system was shut down at 2021-02-11 22:51:56 UTC
+[32mdb_1            |[0m 2021-02-11 22:51:57.459 UTC [48] LOG:  database system is ready to accept connections
+[32mdb_1            |[0m  done
+[32mdb_1            |[0m server started
+[32mdb_1            |[0m CREATE DATABASE
+[32mdb_1            |[0m 
+[32mdb_1            |[0m 
+[32mdb_1            |[0m /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+[32mdb_1            |[0m 
+[32mdb_1            |[0m waiting for server to shut down....2021-02-11 22:51:58.339 UTC [48] LOG:  received fast shutdown request
+[32mdb_1            |[0m 2021-02-11 22:51:58.342 UTC [48] LOG:  aborting any active transactions
+[32mdb_1            |[0m 2021-02-11 22:51:58.346 UTC [48] LOG:  background worker "logical replication launcher" (PID 55) exited with exit code 1
+[32mdb_1            |[0m 2021-02-11 22:51:58.348 UTC [50] LOG:  shutting down
+[32mdb_1            |[0m 2021-02-11 22:51:58.420 UTC [48] LOG:  database system is shut down
+[32mdb_1            |[0m  done
+[32mdb_1            |[0m server stopped
+[32mdb_1            |[0m 
+[32mdb_1            |[0m PostgreSQL init process complete; ready for start up.
+[32mdb_1            |[0m 
+[32mdb_1            |[0m 2021-02-11 22:51:58.490 UTC [1] LOG:  starting PostgreSQL 12.5 (Debian 12.5-1.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 8.3.0-6) 8.3.0, 64-bit
+[32mdb_1            |[0m 2021-02-11 22:51:58.490 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+[32mdb_1            |[0m 2021-02-11 22:51:58.490 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+[32mdb_1            |[0m 2021-02-11 22:51:58.508 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+[32mdb_1            |[0m 2021-02-11 22:51:58.580 UTC [76] LOG:  database system was shut down at 2021-02-11 22:51:58 UTC
+[32mdb_1            |[0m 2021-02-11 22:51:58.590 UTC [1] LOG:  database system is ready to accept connections
+[33mceleryworker_1  |[0m Traceback (most recent call last):
+[33mceleryworker_1  |[0m   File "/app/app/celeryworker_pre_start.py", line 5, in <module>
+[33mceleryworker_1  |[0m     from app.db.session import SessionLocal
+[33mceleryworker_1  |[0m   File "/app/app/db/session.py", line 4, in <module>
+[33mceleryworker_1  |[0m     from app.core.config import settings
+[33mceleryworker_1  |[0m   File "/app/app/core/config.py", line 89, in <module>
+[33mceleryworker_1  |[0m     settings = Settings()
+[33mceleryworker_1  |[0m   File "pydantic/env_settings.py", line 34, in pydantic.env_settings.BaseSettings.__init__
+[33mceleryworker_1  |[0m   File "pydantic/main.py", line 362, in pydantic.main.BaseModel.__init__
+[33mceleryworker_1  |[0m pydantic.error_wrappers.ValidationError: 2 validation errors for Settings
+[33mceleryworker_1  |[0m EMAILS_FROM_EMAIL
+[33mceleryworker_1  |[0m   value is not a valid email address (type=value_error.email)
+[33mceleryworker_1  |[0m FIRST_SUPERUSER
+[33mceleryworker_1  |[0m   value is not a valid email address (type=value_error.email)
+[36mbackend_1       |[0m Traceback (most recent call last):
+[36mbackend_1       |[0m   File "/app/app/backend_pre_start.py", line 5, in <module>
+[36mbackend_1       |[0m     from app.db.session import SessionLocal
+[36mbackend_1       |[0m   File "/app/app/db/session.py", line 4, in <module>
+[36mbackend_1       |[0m     from app.core.config import settings
+[36mbackend_1       |[0m   File "/app/app/core/config.py", line 89, in <module>
+[36mbackend_1       |[0m     settings = Settings()
+[36mbackend_1       |[0m   File "pydantic/env_settings.py", line 34, in pydantic.env_settings.BaseSettings.__init__
+[36mbackend_1       |[0m   File "pydantic/main.py", line 362, in pydantic.main.BaseModel.__init__
+[36mbackend_1       |[0m pydantic.error_wrappers.ValidationError: 2 validation errors for Settings
+[36mbackend_1       |[0m EMAILS_FROM_EMAIL
+[36mbackend_1       |[0m   value is not a valid email address (type=value_error.email)
+[36mbackend_1       |[0m FIRST_SUPERUSER
+[36mbackend_1       |[0m   value is not a valid email address (type=value_error.email)
+[33masyncio-auto-dial_celeryworker_1 exited with code 1
+[0m[36masyncio-auto-dial_backend_1 exited with code 1
+[0m[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:52:02 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 2 "api@internal" "-" 0ms
+[32;1mqueue_1         |[0m Configuring logger redirection
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:52:07 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 3 "api@internal" "-" 0ms
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.380 [debug] <0.287.0> Lager installed handler error_logger_lager_h into error_logger
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.290.0> Lager installed handler lager_forwarder_backend into error_logger_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.293.0> Lager installed handler lager_forwarder_backend into rabbit_log_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.296.0> Lager installed handler lager_forwarder_backend into rabbit_log_channel_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.299.0> Lager installed handler lager_forwarder_backend into rabbit_log_connection_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.302.0> Lager installed handler lager_forwarder_backend into rabbit_log_feature_flags_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.305.0> Lager installed handler lager_forwarder_backend into rabbit_log_federation_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.308.0> Lager installed handler lager_forwarder_backend into rabbit_log_ldap_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.311.0> Lager installed handler lager_forwarder_backend into rabbit_log_mirroring_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.314.0> Lager installed handler lager_forwarder_backend into rabbit_log_prelaunch_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.317.0> Lager installed handler lager_forwarder_backend into rabbit_log_queue_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.320.0> Lager installed handler lager_forwarder_backend into rabbit_log_ra_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.390 [debug] <0.323.0> Lager installed handler lager_forwarder_backend into rabbit_log_shovel_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.393 [debug] <0.326.0> Lager installed handler lager_forwarder_backend into rabbit_log_upgrade_lager_event
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.440 [info] <0.44.0> Application lager started on node rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.750 [info] <0.44.0> Application mnesia started on node rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.760 [info] <0.272.0> 
+[32;1mqueue_1         |[0m  Starting RabbitMQ 3.8.9 on Erlang 23.2.2
+[32;1mqueue_1         |[0m  Copyright (c) 2007-2020 VMware, Inc. or its affiliates.
+[32;1mqueue_1         |[0m  Licensed under the MPL 2.0. Website: https://rabbitmq.com
+[32;1mqueue_1         |[0m 
+[32;1mqueue_1         |[0m   ##  ##      RabbitMQ 3.8.9
+[32;1mqueue_1         |[0m   ##  ##
+[32;1mqueue_1         |[0m   ##########  Copyright (c) 2007-2020 VMware, Inc. or its affiliates.
+[32;1mqueue_1         |[0m   ######  ##
+[32;1mqueue_1         |[0m   ##########  Licensed under the MPL 2.0. Website: https://rabbitmq.com
+[32;1mqueue_1         |[0m 
+[32;1mqueue_1         |[0m   Doc guides: https://rabbitmq.com/documentation.html
+[32;1mqueue_1         |[0m   Support:    https://rabbitmq.com/contact.html
+[32;1mqueue_1         |[0m   Tutorials:  https://rabbitmq.com/getstarted.html
+[32;1mqueue_1         |[0m   Monitoring: https://rabbitmq.com/monitoring.html
+[32;1mqueue_1         |[0m 
+[32;1mqueue_1         |[0m   Logs: <stdout>
+[32;1mqueue_1         |[0m 
+[32;1mqueue_1         |[0m   Config file(s): /etc/rabbitmq/rabbitmq.conf
+[32;1mqueue_1         |[0m                   /etc/rabbitmq/conf.d/management_agent.disable_metrics_collector.conf
+[32;1mqueue_1         |[0m 
+[32;1mqueue_1         |[0m   Starting broker...2021-02-11 22:52:10.764 [info] <0.272.0> 
+[32;1mqueue_1         |[0m  node           : rabbit@204b245561fe
+[32;1mqueue_1         |[0m  home dir       : /var/lib/rabbitmq
+[32;1mqueue_1         |[0m  config file(s) : /etc/rabbitmq/rabbitmq.conf
+[32;1mqueue_1         |[0m                 : /etc/rabbitmq/conf.d/management_agent.disable_metrics_collector.conf
+[32;1mqueue_1         |[0m  cookie hash    : oF6lx1FByQXt+PysZ5X9xg==
+[32;1mqueue_1         |[0m  log(s)         : <stdout>
+[32;1mqueue_1         |[0m  database dir   : /var/lib/rabbitmq/mnesia/rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:10.881 [debug] <0.283.0> Lager installed handler lager_backend_throttle into lager_event
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:52:12 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 4 "api@internal" "-" 0ms
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.876 [info] <0.272.0> Running boot step pre_boot defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.876 [info] <0.272.0> Running boot step rabbit_core_metrics defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.878 [info] <0.272.0> Running boot step rabbit_alarm defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.891 [info] <0.353.0> Memory high watermark set to 1856 MiB (1946735411 bytes) of 4641 MiB (4866838528 bytes) total
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.905 [info] <0.355.0> Enabling free disk space monitoring
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.905 [info] <0.355.0> Disk free limit set to 50MB
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.917 [info] <0.272.0> Running boot step code_server_cache defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.918 [info] <0.272.0> Running boot step file_handle_cache defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.919 [info] <0.358.0> Limiting to approx 1048479 file handles (943629 sockets)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.920 [info] <0.359.0> FHC read buffering:  OFF
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.920 [info] <0.359.0> FHC write buffering: ON
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.924 [info] <0.272.0> Running boot step worker_pool defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.924 [info] <0.346.0> Will use 4 processes for default worker pool
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.925 [info] <0.346.0> Starting worker pool 'worker_pool' with 4 processes in it
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.927 [info] <0.272.0> Running boot step database defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.929 [info] <0.272.0> Node database directory at /var/lib/rabbitmq/mnesia/rabbit@204b245561fe is empty. Assuming we need to join an existing cluster or initialise from scratch...
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.929 [info] <0.272.0> Configured peer discovery backend: rabbit_peer_discovery_classic_config
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.929 [info] <0.272.0> Will try to lock with peer discovery backend rabbit_peer_discovery_classic_config
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.929 [info] <0.272.0> Peer discovery backend does not support locking, falling back to randomized delay
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.930 [info] <0.272.0> Peer discovery backend rabbit_peer_discovery_classic_config does not support registration, skipping randomized startup delay.
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.930 [info] <0.272.0> All discovered existing cluster peers: 
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.930 [info] <0.272.0> Discovered no peer nodes to cluster with. Some discovery backends can filter nodes out based on a readiness criteria. Enabling debug logging might help troubleshoot.
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.937 [info] <0.44.0> Application mnesia exited with reason: stopped
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.938 [info] <0.44.0> Application mnesia exited with reason: stopped
+[32;1mqueue_1         |[0m 2021-02-11 22:52:18.985 [info] <0.44.0> Application mnesia started on node rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.143 [info] <0.272.0> Waiting for Mnesia tables for 30000 ms, 9 retries left
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.144 [info] <0.272.0> Successfully synced tables from a peer
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.182 [info] <0.272.0> Waiting for Mnesia tables for 30000 ms, 9 retries left
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.182 [info] <0.272.0> Successfully synced tables from a peer
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.182 [info] <0.272.0> Feature flag `implicit_default_bindings`: supported, attempt to enable...
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.183 [info] <0.272.0> Feature flag `implicit_default_bindings`: mark as enabled=state_changing
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.199 [info] <0.272.0> Feature flags: list of feature flags found:
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.200 [info] <0.272.0> Feature flags:   [~] implicit_default_bindings
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.200 [info] <0.272.0> Feature flags:   [ ] maintenance_mode_status
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.200 [info] <0.272.0> Feature flags:   [ ] quorum_queue
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.200 [info] <0.272.0> Feature flags:   [ ] virtual_host_metadata
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.200 [info] <0.272.0> Feature flags: feature flag states written to disk: yes
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.224 [info] <0.272.0> Waiting for Mnesia tables for 30000 ms, 0 retries left
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.225 [info] <0.272.0> Successfully synced tables from a peer
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.225 [info] <0.272.0> Feature flag `implicit_default_bindings`: mark as enabled=true
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.247 [info] <0.272.0> Feature flags: list of feature flags found:
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.248 [info] <0.272.0> Feature flags:   [x] implicit_default_bindings
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.248 [info] <0.272.0> Feature flags:   [ ] maintenance_mode_status
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.248 [info] <0.272.0> Feature flags:   [ ] quorum_queue
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.248 [info] <0.272.0> Feature flags:   [ ] virtual_host_metadata
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.248 [info] <0.272.0> Feature flags: feature flag states written to disk: yes
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.274 [info] <0.272.0> Feature flag `maintenance_mode_status`: supported, attempt to enable...
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.274 [info] <0.272.0> Feature flag `maintenance_mode_status`: mark as enabled=state_changing
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.289 [info] <0.272.0> Feature flags: list of feature flags found:
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.290 [info] <0.272.0> Feature flags:   [x] implicit_default_bindings
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.290 [info] <0.272.0> Feature flags:   [~] maintenance_mode_status
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.290 [info] <0.272.0> Feature flags:   [ ] quorum_queue
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.290 [info] <0.272.0> Feature flags:   [ ] virtual_host_metadata
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.290 [info] <0.272.0> Feature flags: feature flag states written to disk: yes
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.328 [info] <0.272.0> Creating table rabbit_node_maintenance_states for feature flag `maintenance_mode_status`
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.338 [info] <0.272.0> Feature flag `maintenance_mode_status`: mark as enabled=true
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.357 [info] <0.272.0> Feature flags: list of feature flags found:
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.358 [info] <0.272.0> Feature flags:   [x] implicit_default_bindings
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.358 [info] <0.272.0> Feature flags:   [x] maintenance_mode_status
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.358 [info] <0.272.0> Feature flags:   [ ] quorum_queue
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.358 [info] <0.272.0> Feature flags:   [ ] virtual_host_metadata
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.358 [info] <0.272.0> Feature flags: feature flag states written to disk: yes
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.383 [info] <0.272.0> Feature flag `quorum_queue`: supported, attempt to enable...
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.383 [info] <0.272.0> Feature flag `quorum_queue`: mark as enabled=state_changing
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.396 [info] <0.272.0> Feature flags: list of feature flags found:
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.397 [info] <0.272.0> Feature flags:   [x] implicit_default_bindings
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.397 [info] <0.272.0> Feature flags:   [x] maintenance_mode_status
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.397 [info] <0.272.0> Feature flags:   [~] quorum_queue
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.397 [info] <0.272.0> Feature flags:   [ ] virtual_host_metadata
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.397 [info] <0.272.0> Feature flags: feature flag states written to disk: yes
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.421 [info] <0.272.0> Waiting for Mnesia tables for 30000 ms, 9 retries left
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.421 [info] <0.272.0> Successfully synced tables from a peer
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.422 [info] <0.272.0> Feature flag `quorum_queue`:   migrating Mnesia table rabbit_queue...
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.444 [info] <0.272.0> Feature flag `quorum_queue`:   migrating Mnesia table rabbit_durable_queue...
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.467 [info] <0.272.0> Feature flag `quorum_queue`:   Mnesia tables migration done
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.467 [info] <0.272.0> Feature flag `quorum_queue`: mark as enabled=true
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.484 [info] <0.272.0> Feature flags: list of feature flags found:
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.484 [info] <0.272.0> Feature flags:   [x] implicit_default_bindings
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.484 [info] <0.272.0> Feature flags:   [x] maintenance_mode_status
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.484 [info] <0.272.0> Feature flags:   [x] quorum_queue
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.484 [info] <0.272.0> Feature flags:   [ ] virtual_host_metadata
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.485 [info] <0.272.0> Feature flags: feature flag states written to disk: yes
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.514 [info] <0.272.0> Feature flag `virtual_host_metadata`: supported, attempt to enable...
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.515 [info] <0.272.0> Feature flag `virtual_host_metadata`: mark as enabled=state_changing
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.529 [info] <0.272.0> Feature flags: list of feature flags found:
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.530 [info] <0.272.0> Feature flags:   [x] implicit_default_bindings
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.530 [info] <0.272.0> Feature flags:   [x] maintenance_mode_status
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.530 [info] <0.272.0> Feature flags:   [x] quorum_queue
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.531 [info] <0.272.0> Feature flags:   [~] virtual_host_metadata
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.531 [info] <0.272.0> Feature flags: feature flag states written to disk: yes
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.560 [info] <0.272.0> Waiting for Mnesia tables for 30000 ms, 9 retries left
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.560 [info] <0.272.0> Successfully synced tables from a peer
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.578 [info] <0.272.0> Feature flag `virtual_host_metadata`: mark as enabled=true
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.596 [info] <0.272.0> Feature flags: list of feature flags found:
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.596 [info] <0.272.0> Feature flags:   [x] implicit_default_bindings
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.596 [info] <0.272.0> Feature flags:   [x] maintenance_mode_status
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.597 [info] <0.272.0> Feature flags:   [x] quorum_queue
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.597 [info] <0.272.0> Feature flags:   [x] virtual_host_metadata
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.597 [info] <0.272.0> Feature flags: feature flag states written to disk: yes
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.628 [info] <0.272.0> Waiting for Mnesia tables for 30000 ms, 9 retries left
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.628 [info] <0.272.0> Successfully synced tables from a peer
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.674 [info] <0.272.0> Waiting for Mnesia tables for 30000 ms, 9 retries left
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.675 [info] <0.272.0> Successfully synced tables from a peer
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.675 [info] <0.272.0> Peer discovery backend rabbit_peer_discovery_classic_config does not support registration, skipping registration.
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.676 [info] <0.272.0> Running boot step database_sync defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.676 [info] <0.272.0> Running boot step feature_flags defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.677 [info] <0.272.0> Running boot step codec_correctness_check defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.677 [info] <0.272.0> Running boot step external_infrastructure defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.677 [info] <0.272.0> Running boot step rabbit_registry defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.678 [info] <0.272.0> Running boot step rabbit_auth_mechanism_cr_demo defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.678 [info] <0.272.0> Running boot step rabbit_queue_location_random defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.678 [info] <0.272.0> Running boot step rabbit_event defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.679 [info] <0.272.0> Running boot step rabbit_auth_mechanism_amqplain defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.680 [info] <0.272.0> Running boot step rabbit_auth_mechanism_plain defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.680 [info] <0.272.0> Running boot step rabbit_exchange_type_direct defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.681 [info] <0.272.0> Running boot step rabbit_exchange_type_fanout defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.681 [info] <0.272.0> Running boot step rabbit_exchange_type_headers defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.682 [info] <0.272.0> Running boot step rabbit_exchange_type_topic defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.682 [info] <0.272.0> Running boot step rabbit_mirror_queue_mode_all defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.682 [info] <0.272.0> Running boot step rabbit_mirror_queue_mode_exactly defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.683 [info] <0.272.0> Running boot step rabbit_mirror_queue_mode_nodes defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.683 [info] <0.272.0> Running boot step rabbit_priority_queue defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.683 [info] <0.272.0> Priority queues enabled, real BQ is rabbit_variable_queue
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.683 [info] <0.272.0> Running boot step rabbit_queue_location_client_local defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.683 [info] <0.272.0> Running boot step rabbit_queue_location_min_masters defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.684 [info] <0.272.0> Running boot step kernel_ready defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.684 [info] <0.272.0> Running boot step rabbit_sysmon_minder defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.684 [info] <0.272.0> Running boot step rabbit_epmd_monitor defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.687 [info] <0.592.0> epmd monitor knows us, inter-node communication (distribution) port: 25672
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.687 [info] <0.272.0> Running boot step guid_generator defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.693 [info] <0.272.0> Running boot step rabbit_node_monitor defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.693 [info] <0.596.0> Starting rabbit_node_monitor
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.694 [info] <0.272.0> Running boot step delegate_sup defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.697 [info] <0.272.0> Running boot step rabbit_memory_monitor defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.697 [info] <0.272.0> Running boot step core_initialized defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.697 [info] <0.272.0> Running boot step upgrade_queues defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.734 [info] <0.272.0> message_store upgrades: 1 to apply
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.735 [info] <0.272.0> message_store upgrades: Applying rabbit_variable_queue:move_messages_to_vhost_store
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.735 [info] <0.272.0> message_store upgrades: No durable queues found. Skipping message store migration
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.736 [info] <0.272.0> message_store upgrades: Removing the old message store data
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.739 [info] <0.272.0> message_store upgrades: All upgrades applied successfully
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.779 [info] <0.272.0> Running boot step rabbit_connection_tracking defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.780 [info] <0.272.0> Running boot step rabbit_connection_tracking_handler defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.780 [info] <0.272.0> Running boot step rabbit_exchange_parameters defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.780 [info] <0.272.0> Running boot step rabbit_mirror_queue_misc defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.782 [info] <0.272.0> Running boot step rabbit_policies defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.785 [info] <0.272.0> Running boot step rabbit_policy defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.786 [info] <0.272.0> Running boot step rabbit_queue_location_validator defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.786 [info] <0.272.0> Running boot step rabbit_quorum_memory_manager defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.786 [info] <0.272.0> Running boot step rabbit_vhost_limit defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.786 [info] <0.272.0> Running boot step recovery defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.789 [info] <0.272.0> Running boot step empty_db_check defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.789 [info] <0.272.0> Will seed default virtual host and user...
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.789 [info] <0.272.0> Adding vhost '/' (description: 'Default virtual host')
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.810 [info] <0.633.0> Making sure data directory '/var/lib/rabbitmq/mnesia/rabbit@204b245561fe/msg_stores/vhosts/628WB79CIFDYO9LJI6DKMI09L' for vhost '/' exists
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.817 [info] <0.633.0> Starting message stores for vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.818 [info] <0.637.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_transient": using rabbit_msg_store_ets_index to provide index
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.822 [info] <0.633.0> Started message store of type transient for vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.822 [info] <0.641.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": using rabbit_msg_store_ets_index to provide index
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.825 [warning] <0.641.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": rebuilding indices from scratch
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.828 [info] <0.633.0> Started message store of type persistent for vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.836 [info] <0.272.0> Created user 'guest'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.844 [info] <0.272.0> Successfully set user tags for user 'guest' to [administrator]
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.846 [info] <0.272.0> Successfully set permissions for 'guest' in virtual host '/' to '.*', '.*', '.*'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.846 [info] <0.272.0> Running boot step rabbit_looking_glass defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.846 [info] <0.272.0> Running boot step rabbit_core_metrics_gc defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.847 [info] <0.272.0> Running boot step background_gc defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.848 [info] <0.272.0> Running boot step connection_tracking defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.857 [info] <0.272.0> Setting up a table for connection tracking on this node: tracked_connection_on_node_rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.865 [info] <0.272.0> Setting up a table for per-vhost connection counting on this node: tracked_connection_per_vhost_on_node_rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.866 [info] <0.272.0> Running boot step routing_ready defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.866 [info] <0.272.0> Running boot step pre_flight defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.866 [info] <0.272.0> Running boot step notify_cluster defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.867 [info] <0.272.0> Running boot step networking defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.867 [info] <0.272.0> Running boot step definition_import_worker_pool defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.867 [info] <0.346.0> Starting worker pool 'definition_import_pool' with 4 processes in it
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.868 [info] <0.272.0> Running boot step cluster_name defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.869 [info] <0.272.0> Initialising internal cluster ID to 'rabbitmq-cluster-id-qQAdRdpOpCXuEZ9to_3xYw'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.873 [info] <0.272.0> Running boot step direct_client defined by app rabbit
+[32;1mqueue_1         |[0m 2021-02-11 22:52:19.874 [info] <0.44.0> Application rabbit started on node rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:20.590 [info] <0.682.0> Feature flags: list of feature flags found:
+[32;1mqueue_1         |[0m 2021-02-11 22:52:20.591 [info] <0.682.0> Feature flags:   [ ] drop_unroutable_metric
+[32;1mqueue_1         |[0m 2021-02-11 22:52:20.591 [info] <0.682.0> Feature flags:   [ ] empty_basic_get_metric
+[32;1mqueue_1         |[0m 2021-02-11 22:52:20.591 [info] <0.682.0> Feature flags:   [x] implicit_default_bindings
+[32;1mqueue_1         |[0m 2021-02-11 22:52:20.591 [info] <0.682.0> Feature flags:   [x] maintenance_mode_status
+[32;1mqueue_1         |[0m 2021-02-11 22:52:20.592 [info] <0.682.0> Feature flags:   [x] quorum_queue
+[32;1mqueue_1         |[0m 2021-02-11 22:52:20.592 [info] <0.682.0> Feature flags:   [x] virtual_host_metadata
+[32;1mqueue_1         |[0m 2021-02-11 22:52:20.592 [info] <0.682.0> Feature flags: feature flag states written to disk: yes
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:52:20 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 5 "api@internal" "-" 0ms
+[32;1mqueue_1         |[0m 2021-02-11 22:52:20.964 [info] <0.44.0> Application cowlib started on node rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:20.985 [info] <0.44.0> Application cowboy started on node rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:21.008 [info] <0.682.0> Running boot step rabbit_mgmt_db_handler defined by app rabbitmq_management_agent
+[32;1mqueue_1         |[0m 2021-02-11 22:52:21.008 [info] <0.682.0> Management plugin: using rates mode 'basic'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:21.026 [info] <0.44.0> Application rabbitmq_management_agent started on node rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:21.083 [info] <0.44.0> Application prometheus started on node rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:21.120 [info] <0.44.0> Application rabbitmq_web_dispatch started on node rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:21.140 [info] <0.713.0> Prometheus metrics: HTTP (non-TLS) listener started on port 15692
+[32;1mqueue_1         |[0m 2021-02-11 22:52:21.141 [info] <0.682.0> Ready to start client connection listeners
+[32;1mqueue_1         |[0m 2021-02-11 22:52:21.143 [info] <0.44.0> Application rabbitmq_prometheus started on node rabbit@204b245561fe
+[32;1mqueue_1         |[0m 2021-02-11 22:52:21.147 [info] <0.832.0> started TCP listener on [::]:5672
+[32;1mqueue_1         |[0m  completed with 3 plugins.
+[32;1mqueue_1         |[0m 2021-02-11 22:52:21.715 [info] <0.682.0> Server startup complete; 3 plugins started.
+[32;1mqueue_1         |[0m  * rabbitmq_prometheus
+[32;1mqueue_1         |[0m  * rabbitmq_web_dispatch
+[32;1mqueue_1         |[0m  * rabbitmq_management_agent
+[32;1mqueue_1         |[0m 2021-02-11 22:52:21.716 [info] <0.682.0> Resetting node maintenance status
+[36;1mpgadmin_1       |[0m NOTE: Configuring authentication for SERVER mode.
+[36;1mpgadmin_1       |[0m 
+[36;1mpgadmin_1       |[0m sudo: setrlimit(RLIMIT_CORE): Operation not permitted
+[36;1mpgadmin_1       |[0m [2021-02-11 22:52:24 +0000] [1] [INFO] Starting gunicorn 19.9.0
+[36;1mpgadmin_1       |[0m [2021-02-11 22:52:24 +0000] [1] [INFO] Listening at: http://[::]:5050 (1)
+[36;1mpgadmin_1       |[0m [2021-02-11 22:52:24 +0000] [1] [INFO] Using worker: threads
+[36;1mpgadmin_1       |[0m /usr/local/lib/python3.8/os.py:1023: RuntimeWarning: line buffering (buffering=1) isn't supported in binary mode, the default buffer size will be used
+[36;1mpgadmin_1       |[0m   return io.open(fd, *args, **kwargs)
+[36;1mpgadmin_1       |[0m [2021-02-11 22:52:24 +0000] [90] [INFO] Booting worker with pid: 90
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:52:25 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 6 "api@internal" "-" 0ms
+[32;1mqueue_1         |[0m 2021-02-11 22:52:29.875 [info] <0.837.0> accepting AMQP connection <0.837.0> (172.18.0.5:43350 -> 172.18.0.6:5672)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:29.886 [info] <0.837.0> connection <0.837.0> (172.18.0.5:43350 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:29.909 [info] <0.847.0> accepting AMQP connection <0.847.0> (172.18.0.5:43352 -> 172.18.0.6:5672)
+[35mflower_1        |[0m [I 210211 22:52:29 mixins:229] Connected to amqp://guest:**@queue:5672//
+[32;1mqueue_1         |[0m 2021-02-11 22:52:29.920 [info] <0.847.0> connection <0.847.0> (172.18.0.5:43352 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:29.962 [info] <0.862.0> accepting AMQP connection <0.862.0> (172.18.0.5:43354 -> 172.18.0.6:5672)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:29.968 [info] <0.862.0> connection <0.862.0> (172.18.0.5:43354 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.654 [info] <0.875.0> accepting AMQP connection <0.875.0> (172.18.0.5:43358 -> 172.18.0.6:5672)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.655 [info] <0.872.0> accepting AMQP connection <0.872.0> (172.18.0.5:43356 -> 172.18.0.6:5672)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.656 [info] <0.878.0> accepting AMQP connection <0.878.0> (172.18.0.5:43360 -> 172.18.0.6:5672)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.657 [info] <0.881.0> accepting AMQP connection <0.881.0> (172.18.0.5:43362 -> 172.18.0.6:5672)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.657 [info] <0.884.0> accepting AMQP connection <0.884.0> (172.18.0.5:43364 -> 172.18.0.6:5672)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.658 [info] <0.887.0> accepting AMQP connection <0.887.0> (172.18.0.5:43366 -> 172.18.0.6:5672)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.661 [info] <0.875.0> connection <0.875.0> (172.18.0.5:43358 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.666 [info] <0.896.0> accepting AMQP connection <0.896.0> (172.18.0.5:43368 -> 172.18.0.6:5672)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.670 [info] <0.899.0> accepting AMQP connection <0.899.0> (172.18.0.5:43370 -> 172.18.0.6:5672)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.672 [info] <0.884.0> connection <0.884.0> (172.18.0.5:43364 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.673 [info] <0.878.0> connection <0.878.0> (172.18.0.5:43360 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.674 [info] <0.881.0> connection <0.881.0> (172.18.0.5:43362 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.678 [info] <0.872.0> connection <0.872.0> (172.18.0.5:43356 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.685 [info] <0.896.0> connection <0.896.0> (172.18.0.5:43368 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.686 [info] <0.899.0> connection <0.899.0> (172.18.0.5:43370 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.695 [info] <0.887.0> connection <0.887.0> (172.18.0.5:43366 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.741 [info] <0.986.0> accepting AMQP connection <0.986.0> (172.18.0.5:43372 -> 172.18.0.6:5672)
+[32;1mqueue_1         |[0m 2021-02-11 22:52:30.753 [info] <0.986.0> connection <0.986.0> (172.18.0.5:43372 -> 172.18.0.6:5672): user 'guest' authenticated and granted access to vhost '/'
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:52:30 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 7 "api@internal" "-" 0ms
+[35mflower_1        |[0m [W 210211 22:52:31 inspector:42] Inspect method stats failed
+[35mflower_1        |[0m [W 210211 22:52:31 inspector:42] Inspect method revoked failed
+[35mflower_1        |[0m [W 210211 22:52:31 inspector:42] Inspect method active_queues failed
+[35mflower_1        |[0m [W 210211 22:52:31 inspector:42] Inspect method active failed
+[35mflower_1        |[0m [W 210211 22:52:31 inspector:42] Inspect method registered failed
+[35mflower_1        |[0m [W 210211 22:52:31 inspector:42] Inspect method conf failed
+[35mflower_1        |[0m [W 210211 22:52:31 inspector:42] Inspect method reserved failed
+[35mflower_1        |[0m [W 210211 22:52:31 inspector:42] Inspect method scheduled failed
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:52:35 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 8 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:52:40 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 9 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:52:45 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 10 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:52:50 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 11 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:52:55 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 12 "api@internal" "-" 2ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:00 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 13 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:05 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 14 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:10 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 15 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:15 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 16 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:23 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 17 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:28 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 18 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:33 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 19 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:38 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 20 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:43 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 21 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:48 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 22 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:53 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 23 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:53:58 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 24 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:54:03 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 25 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:54:08 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 26 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:54:13 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 27 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:54:18 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 28 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:54:26 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 29 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:54:31 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 30 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:54:36 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 31 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:54:41 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 32 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:54:46 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 33 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:54:51 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 34 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:54:56 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 35 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:01 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 36 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:06 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 37 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:11 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 38 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:16 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 39 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:21 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 40 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:28 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 41 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:33 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 42 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:38 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 43 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:43 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 44 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:48 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 45 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:53 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 46 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:55:58 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 47 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:03 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 48 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:08 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 49 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:13 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 50 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:18 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 51 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:23 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 52 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:29 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 53 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:34 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 54 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:39 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 55 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:44 +0000] "GET /docs HTTP/1.1" 404 556 "-" "-" 56 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 2ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:44 +0000] "GET /docs HTTP/1.1" 404 556 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:44 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 57 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:49 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 58 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:54 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 59 "api@internal" "-" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET / HTTP/1.1" 200 2696 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET / HTTP/1.1" 200 2696 "-" "-" 60 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/app.9c4fd3f9.js HTTP/1.1" 200 36224 "-" "-" 61 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 15ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/app.9c4fd3f9.js HTTP/1.1" 200 36224 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /css/chunk-vendors.d2c19747.css HTTP/1.1" 200 249724 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/chunk-vendors.2b582696.js HTTP/1.1" 200 921367 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/login.a3931e67.js HTTP/1.1" 200 4250 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /css/chunk-vendors.d2c19747.css HTTP/1.1" 200 249724 "-" "-" 62 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 88ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/login.a3931e67.js HTTP/1.1" 200 4250 "-" "-" 64 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 11ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-admin-users.395b6541.js HTTP/1.1" 200 4513 "-" "-" 66 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-admin-users-create.93c00d0d.js HTTP/1.1" 200 6818 "-" "-" 65 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 2ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-admin-users-create.93c00d0d.js HTTP/1.1" 200 6818 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-admin-users.395b6541.js HTTP/1.1" 200 4513 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-admin-users-edit.41d1b68a.js HTTP/1.1" 200 7629 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-admin-users-edit.41d1b68a.js HTTP/1.1" 200 7629 "-" "-" 67 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 6ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-admin.689ed85d.js HTTP/1.1" 200 3396 "-" "-" 68 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 11ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-admin.689ed85d.js HTTP/1.1" 200 3396 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-dashboard.3a457101.js HTTP/1.1" 200 3219 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-profile-edit.b140a0d4.js HTTP/1.1" 200 4923 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-profile-edit.b140a0d4.js HTTP/1.1" 200 4923 "-" "-" 70 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-dashboard.3a457101.js HTTP/1.1" 200 3219 "-" "-" 69 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/chunk-vendors.2b582696.js HTTP/1.1" 200 921367 "-" "-" 63 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 181ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-profile-password.9098298b.js HTTP/1.1" 200 5391 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-profile.6cde4ab1.js HTTP/1.1" 200 3831 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-profile.6cde4ab1.js HTTP/1.1" 200 3831 "-" "-" 72 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 17ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main-profile-password.9098298b.js HTTP/1.1" 200 5391 "-" "-" 71 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 29ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main.8eaf9ebf.js HTTP/1.1" 200 7194 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/main.8eaf9ebf.js HTTP/1.1" 200 7194 "-" "-" 73 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 4ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/reset-password.d2415aad.js HTTP/1.1" 200 5829 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/recover-password.5230d60d.js HTTP/1.1" 200 4166 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:56 +0000] "GET /js/start.a54ebc7a.js HTTP/1.1" 200 3552 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/recover-password.5230d60d.js HTTP/1.1" 200 4166 "-" "-" 75 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 6ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/reset-password.d2415aad.js HTTP/1.1" 200 5829 "-" "-" 74 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 9ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:56 +0000] "GET /js/start.a54ebc7a.js HTTP/1.1" 200 3552 "-" "-" 76 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 3ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:57 +0000] "GET /js/start.a54ebc7a.js HTTP/1.1" 200 3552 "-" "-" 77 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:57 +0000] "GET /js/start.a54ebc7a.js HTTP/1.1" 200 3552 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:57 +0000] "GET /js/app.9c4fd3f9.js.map HTTP/1.1" 200 61316 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:57 +0000] "GET /js/app.9c4fd3f9.js.map HTTP/1.1" 200 61316 "-" "-" 78 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 3ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:57 +0000] "GET /js/chunk-vendors.2b582696.js.map HTTP/1.1" 200 3227510 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:57 +0000] "GET /js/chunk-vendors.2b582696.js.map HTTP/1.1" 200 3227510 "-" "-" 79 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 451ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:58 +0000] "GET /js/start.a54ebc7a.js.map HTTP/1.1" 200 3410 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:58 +0000] "GET /js/start.a54ebc7a.js.map HTTP/1.1" 200 3410 "-" "-" 80 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:58 +0000] "GET /js/login.a3931e67.js HTTP/1.1" 200 4250 "http://192.168.1.97/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:58 +0000] "GET /js/login.a3931e67.js HTTP/1.1" 200 4250 "-" "-" 81 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 3ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:56:58 +0000] "GET /js/login.a3931e67.js.map HTTP/1.1" 200 6343 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:56:58 +0000] "GET /js/login.a3931e67.js.map HTTP/1.1" 200 6343 "-" "-" 82 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 2ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:56:59 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 83 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:57:04 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 84 "api@internal" "-" 2ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:57:09 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 85 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:57:14 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 86 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:57:19 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 87 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:21 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 88 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:57:24 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 89 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:27 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 90 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:57:31 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 91 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:32 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 92 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:57:36 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 93 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:37 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 94 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:57:41 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 95 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:42 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 96 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:57:46 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 97 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /sockjs-node/info?t=1613084266040 HTTP/1.1" 200 2696 "-" "-" 98 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /sockjs-node/info?t=1613084266040 HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /sockjs-node/884/xfe4up1h/websocket HTTP/1.1" 200 2696 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /sockjs-node/884/xfe4up1h/websocket HTTP/1.1" 200 2696 "-" "-" 99 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 2ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "POST /sockjs-node/884/isa0gfld/xhr_streaming?t=1613084266103 HTTP/1.1" 405 560 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "POST /sockjs-node/884/isa0gfld/xhr_streaming?t=1613084266103 HTTP/1.1" 405 560 "-" "-" 100 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /sockjs-node/884/0cwlrgnx/eventsource HTTP/1.1" 200 2696 "-" "-" 101 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /sockjs-node/884/0cwlrgnx/eventsource HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /sockjs-node/iframe.html HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /sockjs-node/iframe.html HTTP/1.1" 200 2696 "-" "-" 102 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /css/chunk-vendors.d2c19747.css HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/app.9c4fd3f9.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/chunk-vendors.2b582696.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /css/chunk-vendors.d2c19747.css HTTP/1.1" 304 0 "-" "-" 103 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/app.9c4fd3f9.js HTTP/1.1" 304 0 "-" "-" 104 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 2ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/chunk-vendors.2b582696.js HTTP/1.1" 304 0 "-" "-" 105 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-admin-users-create.93c00d0d.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/login.a3931e67.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-admin-users-create.93c00d0d.js HTTP/1.1" 304 0 "-" "-" 106 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-admin-users-edit.41d1b68a.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-admin-users.395b6541.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-admin.689ed85d.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/login.a3931e67.js HTTP/1.1" 304 0 "-" "-" 107 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 2ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-admin-users-edit.41d1b68a.js HTTP/1.1" 304 0 "-" "-" 108 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-admin-users.395b6541.js HTTP/1.1" 304 0 "-" "-" 109 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-admin.689ed85d.js HTTP/1.1" 304 0 "-" "-" 110 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-dashboard.3a457101.js HTTP/1.1" 304 0 "-" "-" 111 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-dashboard.3a457101.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-profile-password.9098298b.js HTTP/1.1" 304 0 "-" "-" 112 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-profile.6cde4ab1.js HTTP/1.1" 304 0 "-" "-" 113 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main.8eaf9ebf.js HTTP/1.1" 304 0 "-" "-" 115 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 3ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-profile-edit.b140a0d4.js HTTP/1.1" 304 0 "-" "-" 114 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 3ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-profile-password.9098298b.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-profile.6cde4ab1.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main-profile-edit.b140a0d4.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/main.8eaf9ebf.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/recover-password.5230d60d.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/recover-password.5230d60d.js HTTP/1.1" 304 0 "-" "-" 116 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 3ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/start.a54ebc7a.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:46 +0000] "GET /js/reset-password.d2415aad.js HTTP/1.1" 304 0 "http://192.168.1.97/sockjs-node/iframe.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/reset-password.d2415aad.js HTTP/1.1" 304 0 "-" "-" 117 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:46 +0000] "GET /js/start.a54ebc7a.js HTTP/1.1" 304 0 "-" "-" 118 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:47 +0000] "GET /sockjs-node/884/vbpuu5yx/htmlfile?c=_jp.avplh5e HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:47 +0000] "GET /sockjs-node/884/vbpuu5yx/htmlfile?c=_jp.avplh5e HTTP/1.1" 200 2696 "-" "-" 119 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 2ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:47 +0000] "POST /sockjs-node/884/blyiwwsk/xhr?t=1613084267127 HTTP/1.1" 405 560 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:47 +0000] "POST /sockjs-node/884/blyiwwsk/xhr?t=1613084267127 HTTP/1.1" 405 560 "-" "-" 120 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:47 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 121 "api@internal" "-" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:47 +0000] "GET /sockjs-node/884/titp25vl/jsonp?c=_jp.aivwu3c HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:47 +0000] "GET /sockjs-node/884/titp25vl/jsonp?c=_jp.aivwu3c HTTP/1.1" 200 2696 "-" "-" 122 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:48 +0000] "GET /sockjs-node/info?t=1613084268820 HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:48 +0000] "GET /sockjs-node/info?t=1613084268820 HTTP/1.1" 200 2696 "-" "-" 123 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:48 +0000] "GET /sockjs-node/362/fy1mzkod/websocket HTTP/1.1" 200 2696 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:48 +0000] "GET /sockjs-node/362/fy1mzkod/websocket HTTP/1.1" 200 2696 "-" "-" 124 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:48 +0000] "POST /sockjs-node/362/et5zzxtb/xhr_streaming?t=1613084268846 HTTP/1.1" 405 560 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:48 +0000] "POST /sockjs-node/362/et5zzxtb/xhr_streaming?t=1613084268846 HTTP/1.1" 405 560 "-" "-" 125 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:48 +0000] "GET /sockjs-node/362/aqwvk4ff/eventsource HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:48 +0000] "GET /sockjs-node/362/aqwvk4ff/eventsource HTTP/1.1" 200 2696 "-" "-" 126 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:49 +0000] "GET /sockjs-node/362/1tghd2m2/htmlfile?c=_jp.amwgkko HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:49 +0000] "GET /sockjs-node/362/1tghd2m2/htmlfile?c=_jp.amwgkko HTTP/1.1" 200 2696 "-" "-" 127 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 3ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:49 +0000] "POST /sockjs-node/362/zlvfk55i/xhr?t=1613084269495 HTTP/1.1" 405 560 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:49 +0000] "POST /sockjs-node/362/zlvfk55i/xhr?t=1613084269495 HTTP/1.1" 405 560 "-" "-" 128 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:50 +0000] "GET /sockjs-node/362/ys435dcm/jsonp?c=_jp.a3pne5w HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:50 +0000] "GET /sockjs-node/362/ys435dcm/jsonp?c=_jp.a3pne5w HTTP/1.1" 200 2696 "-" "-" 129 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:57:51 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 130 "api@internal" "-" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:52 +0000] "GET /sockjs-node/info?t=1613084272165 HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:52 +0000] "GET /sockjs-node/info?t=1613084272165 HTTP/1.1" 200 2696 "-" "-" 131 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:52 +0000] "GET /sockjs-node/082/5e12mqlg/websocket HTTP/1.1" 200 2696 "-" "-" 132 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:52 +0000] "GET /sockjs-node/082/5e12mqlg/websocket HTTP/1.1" 200 2696 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:52 +0000] "POST /sockjs-node/082/zfkyipta/xhr_streaming?t=1613084272190 HTTP/1.1" 405 560 "-" "-" 133 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:52 +0000] "POST /sockjs-node/082/zfkyipta/xhr_streaming?t=1613084272190 HTTP/1.1" 405 560 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:52 +0000] "GET /sockjs-node/082/kehtfwqm/eventsource HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:52 +0000] "GET /sockjs-node/082/kehtfwqm/eventsource HTTP/1.1" 200 2696 "-" "-" 134 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:52 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 135 "api@internal" "-" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:52 +0000] "POST /sockjs-node/082/aukkckvi/xhr?t=1613084272880 HTTP/1.1" 405 560 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:52 +0000] "POST /sockjs-node/082/aukkckvi/xhr?t=1613084272880 HTTP/1.1" 405 560 "-" "-" 136 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 2ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:53 +0000] "GET /sockjs-node/082/bny34bzq/jsonp?c=_jp.acqsyt2 HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:53 +0000] "GET /sockjs-node/082/bny34bzq/jsonp?c=_jp.acqsyt2 HTTP/1.1" 200 2696 "-" "-" 137 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:57:56 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 138 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:57 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 139 "api@internal" "-" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:57 +0000] "GET /sockjs-node/info?t=1613084277484 HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:57 +0000] "GET /sockjs-node/info?t=1613084277484 HTTP/1.1" 200 2696 "-" "-" 140 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:57 +0000] "GET /sockjs-node/704/dcubp2al/websocket HTTP/1.1" 200 2696 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:57 +0000] "GET /sockjs-node/704/dcubp2al/websocket HTTP/1.1" 200 2696 "-" "-" 141 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:57 +0000] "POST /sockjs-node/704/2wvzhg15/xhr_streaming?t=1613084277521 HTTP/1.1" 405 560 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:57 +0000] "POST /sockjs-node/704/2wvzhg15/xhr_streaming?t=1613084277521 HTTP/1.1" 405 560 "-" "-" 142 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:57 +0000] "GET /sockjs-node/704/nf144zc4/eventsource HTTP/1.1" 200 2696 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:57 +0000] "GET /sockjs-node/704/nf144zc4/eventsource HTTP/1.1" 200 2696 "-" "-" 143 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:57:58 +0000] "POST /sockjs-node/704/d3g3tixi/xhr?t=1613084278214 HTTP/1.1" 405 560 "http://192.168.1.97/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" "192.168.1.222"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:57:58 +0000] "POST /sockjs-node/704/d3g3tixi/xhr?t=1613084278214 HTTP/1.1" 405 560 "-" "-" 144 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:01 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 145 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:02 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 146 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:06 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 147 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:07 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 148 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:11 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 149 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:12 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 150 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:16 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 151 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:17 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 152 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:21 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 153 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:22 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 154 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:26 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 155 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:26 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 156 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:31 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 157 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:31 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 158 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:36 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 159 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:36 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 160 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:41 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 161 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:41 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 162 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:46 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 163 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:46 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 164 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:51 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 165 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:51 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 166 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:58:56 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 167 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:58:56 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 168 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:01 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 169 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:01 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 170 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:06 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 171 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:06 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 172 "api@internal" "-" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:09 +0000] "GET /sockjs-node/info?t=1613084349908 HTTP/1.1" 200 2696 "http://localhost/users/" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:09 +0000] "GET /sockjs-node/info?t=1613084349908 HTTP/1.1" 200 2696 "-" "-" 173 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:09 +0000] "GET /sockjs-node/347/who1ednz/websocket HTTP/1.1" 200 2696 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:09 +0000] "GET /sockjs-node/347/who1ednz/websocket HTTP/1.1" 200 2696 "-" "-" 174 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:09 +0000] "POST /sockjs-node/347/ozqr1hsf/xhr_streaming?t=1613084349980 HTTP/1.1" 405 158 "http://localhost/users/" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:09 +0000] "POST /sockjs-node/347/ozqr1hsf/xhr_streaming?t=1613084349980 HTTP/1.1" 405 158 "-" "-" 175 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:09 +0000] "GET /sockjs-node/347/inmftwqh/eventsource HTTP/1.1" 200 2696 "http://localhost/users/" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:09 +0000] "GET /sockjs-node/347/inmftwqh/eventsource HTTP/1.1" 200 2696 "-" "-" 176 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:10 +0000] "GET /sockjs-node/iframe.html HTTP/1.1" 200 2696 "http://localhost/users/" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:10 +0000] "GET /sockjs-node/iframe.html HTTP/1.1" 200 2696 "-" "-" 177 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:10 +0000] "GET /js/chunk-vendors.2b582696.js HTTP/1.1" 200 921367 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:10 +0000] "GET /js/chunk-vendors.2b582696.js HTTP/1.1" 200 921367 "-" "-" 178 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 7ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:10 +0000] "GET /js/app.9c4fd3f9.js HTTP/1.1" 200 36224 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:10 +0000] "GET /js/app.9c4fd3f9.js HTTP/1.1" 200 36224 "-" "-" 179 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 2ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:10 +0000] "GET /css/chunk-vendors.d2c19747.css HTTP/1.1" 200 249724 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:10 +0000] "GET /css/chunk-vendors.d2c19747.css HTTP/1.1" 200 249724 "-" "-" 180 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 5ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:11 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 181 "api@internal" "-" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:11 +0000] "GET /js/start.a54ebc7a.js HTTP/1.1" 200 3552 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:11 +0000] "GET /js/start.a54ebc7a.js HTTP/1.1" 200 3552 "-" "-" 182 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:11 +0000] "GET /sockjs-node/347/wvuuggu4/htmlfile?c=_jp.awvcqyd HTTP/1.1" 200 2696 "http://localhost/users/" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:11 +0000] "GET /sockjs-node/347/wvuuggu4/htmlfile?c=_jp.awvcqyd HTTP/1.1" 200 2696 "-" "-" 183 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:11 +0000] "GET /js/login.a3931e67.js HTTP/1.1" 200 4250 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:11 +0000] "GET /js/login.a3931e67.js HTTP/1.1" 200 4250 "-" "-" 184 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:11 +0000] "POST /sockjs-node/347/inlgvfsj/xhr?t=1613084351379 HTTP/1.1" 405 158 "-" "-" 185 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:11 +0000] "POST /sockjs-node/347/inlgvfsj/xhr?t=1613084351379 HTTP/1.1" 405 158 "http://localhost/users/" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:11 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 186 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:12 +0000] "GET /sockjs-node/347/dnjhcur1/jsonp?c=_jp.awnlmjv HTTP/1.1" 200 2696 "-" "-" 187 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 0ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:12 +0000] "GET /sockjs-node/347/dnjhcur1/jsonp?c=_jp.awnlmjv HTTP/1.1" 200 2696 "http://localhost/users/" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-admin-users-create.93c00d0d.js HTTP/1.1" 200 6818 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-admin-users-create.93c00d0d.js HTTP/1.1" 200 6818 "-" "-" 188 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-admin-users-edit.41d1b68a.js HTTP/1.1" 200 7629 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-admin-users.395b6541.js HTTP/1.1" 200 4513 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-admin.689ed85d.js HTTP/1.1" 200 3396 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-admin.689ed85d.js HTTP/1.1" 200 3396 "-" "-" 191 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-admin-users.395b6541.js HTTP/1.1" 200 4513 "-" "-" 190 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 2ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-admin-users-edit.41d1b68a.js HTTP/1.1" 200 7629 "-" "-" 189 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 3ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-profile-password.9098298b.js HTTP/1.1" 200 5391 "-" "-" 192 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-profile-password.9098298b.js HTTP/1.1" 200 5391 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-profile.6cde4ab1.js HTTP/1.1" 200 3831 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main.8eaf9ebf.js HTTP/1.1" 200 7194 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main-profile.6cde4ab1.js HTTP/1.1" 200 3831 "-" "-" 193 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:12 +0000] "GET /js/main.8eaf9ebf.js HTTP/1.1" 200 7194 "-" "-" 194 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:12 +0000] "GET /js/recover-password.5230d60d.js HTTP/1.1" 200 4166 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[34mfrontend_1      |[0m 172.18.0.4 - - [11/Feb/2021:22:59:12 +0000] "GET /js/reset-password.d2415aad.js HTTP/1.1" 200 5829 "http://localhost/sockjs-node/iframe.html" "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0" "172.18.0.1"
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:12 +0000] "GET /js/recover-password.5230d60d.js HTTP/1.1" 200 4166 "-" "-" 195 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:12 +0000] "GET /js/reset-password.d2415aad.js HTTP/1.1" 200 5829 "-" "-" 196 "192-168-1-97-frontend-http@docker" "http://172.18.0.2:80" 1ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:16 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 197 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:17 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 198 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:21 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 199 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:22 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 200 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:26 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 201 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:27 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 202 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:31 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 203 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:31 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 204 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:36 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 205 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:36 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 206 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:40 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 207 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:41 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 208 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:45 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 209 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:46 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 210 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:49 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 211 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:51 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 212 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:54 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 213 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:22:59:56 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 214 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:22:59:58 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 215 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:00:01 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 216 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:03 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 217 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:00:06 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 218 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:07 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 219 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:00:11 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 220 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:12 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 221 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:00:16 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 222 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:16 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 223 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:21 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 224 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:00:21 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 225 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:25 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 226 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:00:26 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 227 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:37 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 228 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:00:38 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 229 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:41 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 230 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:00:43 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 231 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:46 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 232 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:00:48 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 233 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:50 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 234 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:00:53 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 235 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:55 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 236 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:00:58 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 237 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:00:59 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 238 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:01:03 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 239 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:01:04 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 240 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:01:08 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 241 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:01:08 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 242 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:01:13 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 243 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:01:13 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 244 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:01:17 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 245 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:01:18 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 246 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:01:22 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 247 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:01:23 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 248 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:01:26 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 249 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:01:28 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 250 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:01:31 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 251 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:01:33 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 252 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:01:42 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 253 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:01:44 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 254 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:01:47 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 255 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:01:49 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 256 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:01:51 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 257 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:01:54 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 258 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:01:56 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 259 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:01:59 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 260 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:02:00 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 261 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:02:04 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 262 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:02:05 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 263 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:02:09 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 264 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:02:09 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 265 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:02:14 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 266 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:02:14 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 267 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:02:18 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 268 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:02:19 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 269 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:02:23 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 270 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:02:24 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 271 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:02:27 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 272 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:02:29 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 273 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:02:32 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 274 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:02:34 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 275 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:02:36 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 276 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:02:39 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 277 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:02:47 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 278 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:02:50 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 279 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 192.168.1.222 - - [11/Feb/2021:23:02:52 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 280 "api@internal" "-" 0ms
+[33;1mproxy_1         |[0m 172.18.0.1 - - [11/Feb/2021:23:02:55 +0000] "GET /api/overview HTTP/1.1" 200 435 "-" "-" 281 "api@internal" "-" 0ms
+Gracefully stopping... (press Ctrl+C again to force)
